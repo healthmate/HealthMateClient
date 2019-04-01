@@ -94,7 +94,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             viewHolder.description.setVisibility(View.GONE);
         } else {
             viewHolder.description.setVisibility(View.VISIBLE);
-            viewHolder.description.setText(postObject.getDescription());
+            viewHolder.description.setText('"'+postObject.getDescription()+'"');
         }
 
         SharedPreferences prefs = mContext.getSharedPreferences(MY_PREFS_NAME,MODE_PRIVATE);

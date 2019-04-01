@@ -261,15 +261,21 @@ public class Post extends AppCompatActivity {
         protected void onPostExecute(JSONObject s) {
             progressBar.setVisibility(View.GONE);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            try {
-                message = s.getString("message");
-                status = s.getString("status");
+            if(s != null){
+                try {
+                    message = s.getString("message");
+                    status = s.getString("status");
 
 
-                Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+            else{
+                Toast.makeText(getApplicationContext(),"Post not successful",Toast.LENGTH_LONG).show();
+            }
+
 
         }
     }

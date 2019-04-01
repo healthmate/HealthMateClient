@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.healthmate.client.Activities.Activities;
 import com.healthmate.client.Community.Community;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.navigation_dashboard:
                     //mTextMessage.setText(R.string.title_dashboard);
-                    //selectedFragment = new MainActivity();
+                    selectedFragment = new Activities();
                     break;
                 case R.id.navigation_notifications:
                     //mTextMessage.setText(R.string.title_notifications);

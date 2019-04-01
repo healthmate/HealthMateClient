@@ -171,6 +171,7 @@ public class LogIn extends AppCompatActivity {
                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME,MODE_PRIVATE).edit();
                editor.putString("login","true");
                editor.putString("token",auth_token);
+               editor.putInt("steps", 0);
                editor.putString("profile_username",status);
 
                Log.e("username", status);
