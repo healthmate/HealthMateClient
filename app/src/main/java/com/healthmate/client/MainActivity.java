@@ -5,8 +5,10 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +20,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.healthmate.client.Activities.Activities;
+import com.healthmate.client.BroadcastReceiver.DeviceBootReceiver;
 import com.healthmate.client.BroadcastReceiver.NotificationReceiver;
 import com.healthmate.client.BroadcastReceiver.StepReceiver;
 import com.healthmate.client.Community.Community;
@@ -92,6 +95,16 @@ public class MainActivity extends AppCompatActivity {
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+            alarmManager2.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent2);
+        }
+
+        PackageManager pm = this.getPackageManager();
+        ComponentName  receiver = new ComponentName(this, DeviceBootReceiver.class);
+        pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
     }
 
 }

@@ -8,7 +8,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SET_ALARM"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
 
 
 
@@ -19,47 +20,69 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Auth.LogIn">
+        <activity android:name=".Auth.LogIn"
+            tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Auth.Register" />
+        <activity android:name=".Auth.Register"
+            tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" />
         <activity
             android:name=".Community.Community"
             android:label="@string/title_activity_community"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".Community.Post"
-            android:label="Post" />
+            android:label="Post"
+            tools:ignore="InnerclassSeparator" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".Community.Search" />
-        <activity android:name=".Community.Profile" />
-        <activity android:name=".Community.Comments" />
+        <activity android:name=".Community.Search"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".Community.Profile"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".Community.Comments"
+            tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".Community.OtherProfile"
             android:label="@string/title_activity_other_profile"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.Activities"></activity>
+            android:theme="@style/AppTheme"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".Activities.Activities"
+            tools:ignore="InnerclassSeparator"/>
 
         <service android:name=".ServiceClass.StepService"
             android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            tools:ignore="InnerclassSeparator" />
 
         <receiver android:name=".BroadcastReceiver.StepReceiver"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false"
+            tools:ignore="InnerclassSeparator" />
 
         <receiver android:name=".BroadcastReceiver.NotificationReceiver"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false"
+            tools:ignore="InnerclassSeparator" />
+
+        <receiver android:name=".BroadcastReceiver.DeviceBootReceiver"
+            android:enabled="false"
+            tools:ignore="InnerclassSeparator">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+
     </application>
 
 </manifest>
