@@ -20,22 +20,18 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ProgressBar
+            <!--ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyle"
                 android:layout_gravity="center"
-                android:indeterminateDrawable="@drawable/custom_text"/>
+                android:indeterminateDrawable="@drawable/custom_text"/!-->
             <TextView
                 android:id="@+id/tv_steps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_alignStart="@+id/progressBar"
-                android:layout_alignTop="@+id/progressBar"
-                android:layout_alignEnd="@+id/progressBar"
-                android:layout_alignBottom="@+id/progressBar"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="0"

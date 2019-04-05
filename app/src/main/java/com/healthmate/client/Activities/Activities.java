@@ -1,42 +1,52 @@
 package com.healthmate.client.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.hardware.TriggerEvent;
 import android.hardware.TriggerEventListener;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.healthmate.client.Auth.LogIn;
-import com.healthmate.client.MainActivity;
+import com.healthmate.client.BroadcastReceiver.StepReceiver;
 import com.healthmate.client.R;
 
-import java.lang.reflect.Array;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Calendar;
 import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -51,6 +61,7 @@ public class Activities extends Fragment implements SensorEventListener, StepLis
     private TextView TvSteps;
     private Button BtnStart, BtnStop;
     private TriggerEventListener triggerEventListener;
+    String token;
     Sensor motion;
     Sensor stepDect;
     LineChart mChart;
@@ -58,7 +69,6 @@ public class Activities extends Fragment implements SensorEventListener, StepLis
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
 
         return inflater.inflate(R.layout.activity_activities,container, false);
     }
@@ -92,8 +102,6 @@ public class Activities extends Fragment implements SensorEventListener, StepLis
         }
 
         mChart = Objects.requireNonNull(getView()).findViewById(R.id.linechart);
-        //mChart.setOnChartGestureListener(Activities.this);
-        //mChart.setOnChartValueSelectedListener(Activities.this);
 
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
@@ -149,9 +157,9 @@ public class Activities extends Fragment implements SensorEventListener, StepLis
         if(restoredText != null){
 
             int numSteps = prefs.getInt("steps", -1);
-            Log.e("stepsbef", Integer.toString(numSteps) );
+            token = prefs.getString("token",null);
             numSteps++;
-            Log.e("stepsafter", Integer.toString(numSteps) );
+
             TvSteps.setText(Integer.toString(numSteps));
 
 
@@ -161,7 +169,59 @@ public class Activities extends Fragment implements SensorEventListener, StepLis
             editor.putInt("steps", numSteps);
             editor.apply();
 
-            Log.e("finish", "finish");
+            new StoreSteps().execute(String.valueOf(numSteps), token);
+
+        }
+
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    class StoreSteps extends AsyncTask<String, String, Integer> {
+
+        @Override
+        protected Integer doInBackground(String... strings) {
+            String steps = strings[0];
+            String auth_token = strings[1];
+            try {
+                Log.e("IOexcep", "try");
+                URL url = new URL("https://healthmate-api-heroku.herokuapp.com/storesteps/"+steps);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("POST");
+                con.setRequestProperty("Authorization", "JWT "+auth_token);
+                con.setDoOutput(true);
+                con.setConnectTimeout(3000);
+                con.setRequestProperty("Content-Type","application/json");
+                con.connect();
+
+                int resp=con.getResponseCode();
+                Log.e("IOexcep", "connnect");
+                Log.e("IOexcep", Integer.toString(resp));
+                BufferedInputStream is = new BufferedInputStream(con.getInputStream());
+                //READ IS content into a string
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+
+                int response = con.getResponseCode();
+                is.close();
+                br.close();
+                con.disconnect();
+
+                return response;
+
+
+            } catch (MalformedURLException e) {
+                Log.e("IOexcep", "Malformed URL");
+            } catch (IOException e) {
+                Log.e("IOexcep", "Not Connected");
+            }
+            return  null;
+        }
+
+        @Override
+        protected void onPostExecute(Integer s) {
+
+            //if(s == 200)
+
+
         }
     }
 }

@@ -6,6 +6,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+
 
 
     <application
@@ -45,6 +49,17 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".Activities.Activities"></activity>
 
+        <service android:name=".ServiceClass.StepService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+        <receiver android:name=".BroadcastReceiver.StepReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+
+        <receiver android:name=".BroadcastReceiver.NotificationReceiver"
+            android:enabled="true"
+            android:exported="false"/>
     </application>
 
 </manifest>
