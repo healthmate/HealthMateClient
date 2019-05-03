@@ -177,7 +177,7 @@ public class LogIn extends AppCompatActivity {
                editor.putString("profile_username",username);
                editor.putString("profile_fullname",fullname);
 
-               Log.e("username", status);
+
                editor.apply();
 
                startActivity(new Intent(LogIn.this, MainActivity.class));

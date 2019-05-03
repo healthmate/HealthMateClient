@@ -97,6 +97,7 @@ public class OtherProfile extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), User_posts.class);
                 intent.putExtra("purpose", "other_user");
                 intent.putExtra("user_id", current_userid);
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });

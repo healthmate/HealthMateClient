@@ -83,6 +83,7 @@ public class Profile extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), User_posts.class);
                 intent.putExtra("purpose", "current_user");
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });

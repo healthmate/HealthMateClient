@@ -47,7 +47,7 @@ public class User_posts extends AppCompatActivity {
     String create_at;
     String likes;
     PostObject postObject;
-    String token,user_id,post_id,username,current_userid,purpose;
+    String token,user_id,post_id,username,current_userid,purpose, profile_username;
     TextView TvUsername;
 
     @Override
@@ -78,6 +78,7 @@ public class User_posts extends AppCompatActivity {
         Bundle intent = getIntent().getExtras();
         if(intent != null){
             purpose = intent.getString("purpose");
+            profile_username = intent.getString("username");
             if(Objects.equals(purpose, "other_user")){
                 current_userid = intent.getString("user_id");
                 new GetPostTask().execute(token,purpose,current_userid);
@@ -190,7 +191,12 @@ public class User_posts extends AppCompatActivity {
                         postObjectList.add(postObject);
                     }
                     postAdapter.notifyDataSetChanged();
-                    TvUsername.setText(username);
+                    if(username!=null){
+                        TvUsername.setText(username);
+                    }else{
+                        TvUsername.setText(profile_username);
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
