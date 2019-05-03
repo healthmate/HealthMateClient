@@ -13,7 +13,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.e("ALARM set", "SET!!!" );
-        Intent notifyIntent = new Intent(context, StepReceiver.class);
+        Intent notifyIntent = new Intent(context, NotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
                 2, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -26,9 +26,9 @@ public class DeviceBootReceiver extends BroadcastReceiver {
 
         /////////
 
-        Intent notifyIntent2 = new Intent(context, NotificationReceiver.class);
+        Intent notifyIntent2 = new Intent(context, StepsReceiver.class);
         PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context,
-                2, notifyIntent2, PendingIntent.FLAG_UPDATE_CURRENT);
+                3, notifyIntent2, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager2 = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Calendar calendar2 = Calendar.getInstance();
@@ -37,7 +37,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
         calendar2.set(Calendar.SECOND,59);
         calendar2.set(Calendar.MILLISECOND,0);
 
-        alarmManager2.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        alarmManager2.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent2);
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),

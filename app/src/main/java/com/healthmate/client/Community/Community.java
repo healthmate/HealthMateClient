@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.healthmate.client.Objects.PostAdapter;
 import com.healthmate.client.Objects.PostObject;
@@ -102,8 +103,8 @@ public class Community extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Toolbar toolbar = (Toolbar) Objects.requireNonNull(getView()).findViewById(R.id.toolbar);
 
-        Button btn_post = Objects.requireNonNull(getView()).findViewById(R.id.post);
-        ImageView search = Objects.requireNonNull(getView()).findViewById(R.id.search_btn);
+        ImageView btn_post = Objects.requireNonNull(getView()).findViewById(R.id.post);
+        TextView search = Objects.requireNonNull(getView()).findViewById(R.id.search_btn);
         ImageView profile = Objects.requireNonNull(getView()).findViewById(R.id.profile);
         btn_post.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,6 +211,7 @@ public class Community extends Fragment {
                         postObject = new PostObject(description, image_url, create_at, user_id, username,likes, post_id);
                         postObjectList.add(postObject);
                     }
+                    recyclerView.getRecycledViewPool().clear();
                     postAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {

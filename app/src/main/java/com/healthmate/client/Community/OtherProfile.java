@@ -1,20 +1,22 @@
 package com.healthmate.client.Community;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.healthmate.client.Objects.PostAdapter;
 import com.healthmate.client.Objects.PostObject;
+import com.healthmate.client.Objects.UserAdapter;
 import com.healthmate.client.R;
 
 import org.json.JSONArray;
@@ -29,8 +31,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.healthmate.client.Community.Community.MY_PREFS_NAME;
 
@@ -39,17 +41,11 @@ public class OtherProfile extends AppCompatActivity {
     InputStream is = null;
     String line = null;
     String result = null;
-    TextView posts_tv,username_tv,community_tv;
-    String community,user_id,username,posts,post_id,token,current_userid;
-    String isFollowing;
-    Button follow_btn;
+    TextView posts_tv,username_tv,community_tv,fullname_tv;
+    String community,user_id,username,posts,post_id,token,current_userid, message,status,fullname;
+    Boolean isFollowing;
+    Button connect_btn;
 
-    private RecyclerView recyclerView;
-    public PostAdapter postAdapter;
-    public List<PostObject> postObjectList;
-
-    String description,image_url,create_at,likes;
-    PostObject postObject;
 
 
     @Override
@@ -60,7 +56,8 @@ public class OtherProfile extends AppCompatActivity {
         posts_tv = findViewById(R.id.posts);
         username_tv = findViewById(R.id.username);
         community_tv = findViewById(R.id.following);
-        follow_btn = findViewById(R.id.follow_profile);
+        fullname_tv = findViewById(R.id.full_name);
+        connect_btn = findViewById(R.id.connect_button);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,26 +80,43 @@ public class OtherProfile extends AppCompatActivity {
         Bundle intent = getIntent().getExtras();
         if(intent != null){
             current_userid = intent.getString("user_id");
+            isFollowing = Boolean.parseBoolean(intent.getString("isFollowing"));
+        }
 
+        if(isFollowing){
+            connect_btn.setText("connected");
+        }else{
+            connect_btn.setText("connect");
         }
 
         new UserProfileTask().execute(current_userid, token);
 
-        postObjectList = new ArrayList<>();
+        posts_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), User_posts.class);
+                intent.putExtra("purpose", "other_user");
+                intent.putExtra("user_id", current_userid);
+                startActivity(intent);
+            }
+        });
 
-        new GetPostTask().execute(current_userid);
+        connect_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (connect_btn.getText().toString().equals("connect")) {
+                    SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME,MODE_PRIVATE);
+                    String restoredText = prefs.getString("login", null);
 
-        Log.e("Postobj ", postObjectList.toString());
-        recyclerView = findViewById(R.id.recycler_view_otherprofile);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
+                    if(restoredText != null){
+                        token = prefs.getString("token",null);
+                    }
 
+                    new FollowTask().execute(token, current_userid);
+                }
+            }
 
-        postAdapter = new PostAdapter(this,postObjectList);
-        recyclerView.setAdapter(postAdapter);
+        });
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -172,16 +186,10 @@ public class OtherProfile extends AppCompatActivity {
                     user_id = s.getString("user_id");
                     username = s.getString("username");
                     posts = s.getString("posts");
-                    isFollowing = s.getString("isFollowing");
-
-                    Log.e("isFollo", isFollowing);
+                    fullname = s.getString("full_name");
                     Log.e("2usd", user_id);
-                    if(isFollowing.equals("true")){
-                        follow_btn.setText("Following");
-                    }else{
-                        follow_btn.setText("Follow");
-                    }
 
+                    fullname_tv.setText(fullname);
                     community_tv.setText(community);
                     username_tv.setText(username);
                     posts_tv.setText(posts);
@@ -195,7 +203,7 @@ public class OtherProfile extends AppCompatActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    class GetPostTask extends AsyncTask<String, String, JSONArray> {
+    class FollowTask extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute() {
 
@@ -203,17 +211,19 @@ public class OtherProfile extends AppCompatActivity {
 
 
         @Override
-        protected JSONArray doInBackground(String... strings) {
+        protected JSONObject doInBackground(String... strings) {
 
-            String userid = strings[0];
+            String auth_token = strings[0];
+            String user_id = strings[1];
             try {
                 Log.e("IOexcep", "try");
-                URL url = new URL("https://healthmate-api-heroku.herokuapp.com/" +
-                        "getuserposts/" +
-                        userid);
+                String base_url = "https://healthmate-api-heroku.herokuapp.com/community/request/";
+                URL url = new URL(base_url + user_id);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-
+                con.setRequestMethod("POST");
+                con.setDoOutput(true);
+                con.setRequestProperty("Content-Type","application/json");
+                con.setRequestProperty("Authorization", "JWT "+auth_token);
                 con.connect();
 
                 int resp=con.getResponseCode();
@@ -234,9 +244,7 @@ public class OtherProfile extends AppCompatActivity {
                 br.close();
                 con.disconnect();
 
-                Log.e("doInbackground", result );
-
-                return new JSONArray(result);
+                return new JSONObject(result);
 
 
             } catch (MalformedURLException e) {
@@ -252,31 +260,20 @@ public class OtherProfile extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(JSONArray s) {
-            postObjectList.clear();
-            if(s!=null) {
-                try {
-                    for (int i = 0; i < s.length(); i++) {
-                        JSONObject jo = s.getJSONObject(i);
-                        description = jo.getString("description");
-                        image_url = jo.getString("image_url");
-                        create_at = jo.getString("create_at");
-                        user_id = jo.getString("user_id");
-                        username = jo.getString("username");
-                        likes = jo.getString("likes");
-                        post_id = jo.getString("post_id");
-                        Log.e("IMAGE_URL "+i, image_url);
-                        postObject = new PostObject(description, image_url, create_at, user_id, username,likes,post_id);
-                        postObjectList.add(postObject);
-                    }
-                    postAdapter.notifyDataSetChanged();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        protected void onPostExecute(JSONObject s) {
+            try {
+                message = s.getString("message");
+                status = s.getString("status");
+                if(Objects.equals(status, "success")){
+                    connect_btn.setText("connected");
                 }
 
+                Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
         }
     }
+
 }

@@ -50,7 +50,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     String line = null;
     String result = null;
     String token;
-    PostObject postObject;
+
     boolean decide_like;
     String message;
     String status;
@@ -83,7 +83,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-
+        final PostObject postObject;
         postObject = mPost.get(i);
         viewHolder.username.setText(postObject.getUsername());
         viewHolder.likes.setText(postObject.getLikes()+ " likes");
@@ -127,6 +127,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
                 Intent intent = new Intent(mContext, Comments.class);
                 intent.putExtra("post_id", postObject.getPost_id());
+                intent.putExtra("description", postObject.getDescription());
                 mContext.startActivity(intent);
             }
         });

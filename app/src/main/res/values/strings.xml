@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Client</string>
+    <string name="app_name">HealthMate</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -7,4 +7,15 @@
     <string name="title_activity_community">Community</string>
     <string name="title_activity_other_profile">OtherProfile</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="description">Lorem ipsum dolor ist amet, connectectur adipisiring elit, sed
+    do eiumod tempor incididunt ut laborr et dolorre magina wirt aligue</string>
+    <string name="challenge">To Create a Challenge:\n
+                            add the following hashtags to the description\n
+                            1.challenge title - hashtag must include challenge e.g. #titlechallenge.\n
+                            2.end date - hashtag should start with a 'd' and follow this format\n
+                              e.g. #d2019-04-28.\n
+                            3.goal - hashtag should start with a 'g' e.g. #g10000</string>
+    <string name="lifestyle">Lifestyle</string>
+    <string name="activity">Activity</string>
+    <string name="community">Community</string>
 </resources>

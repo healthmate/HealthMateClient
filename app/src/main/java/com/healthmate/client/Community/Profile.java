@@ -1,6 +1,7 @@
 package com.healthmate.client.Community;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -35,20 +36,13 @@ import java.util.List;
 import static com.healthmate.client.Community.Community.MY_PREFS_NAME;
 
 public class Profile extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    public PostAdapter postAdapter;
-    public List<PostObject> postObjectList;
+
     InputStream is = null;
     String line = null;
     String result = null;
-    String description;
-    String image_url;
-    String create_at;
-    String likes;
-    PostObject postObject;
     String community,user_id,username,posts,post_id;
-    TextView posts_tv,username_tv,community_tv;
-    String token;
+    TextView posts_tv,username_tv,community_tv,fullname_tv;
+    String token, fullname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +52,7 @@ public class Profile extends AppCompatActivity {
         posts_tv = findViewById(R.id.posts);
         username_tv = findViewById(R.id.username);
         community_tv = findViewById(R.id.following);
+        fullname_tv = findViewById(R.id.full_name);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,13 +71,22 @@ public class Profile extends AppCompatActivity {
 
         if(restoredText != null){
             token = prefs.getString("token",null);
+            fullname = prefs.getString("profile_fullname", null);
             Log.e("TOKEN", token);
 
         }
 
         new UserProfileTask().execute(token);
 
-        postObjectList = new ArrayList<>();
+        posts_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), User_posts.class);
+                intent.putExtra("purpose", "current_user");
+                startActivity(intent);
+            }
+        });
+        /*postObjectList = new ArrayList<>();
 
         new GetPostTask().execute(token);
 
@@ -96,7 +100,7 @@ public class Profile extends AppCompatActivity {
 
 
         postAdapter = new PostAdapter(this,postObjectList);
-        recyclerView.setAdapter(postAdapter);
+        recyclerView.setAdapter(postAdapter);*/
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -164,7 +168,7 @@ public class Profile extends AppCompatActivity {
                         username = s.getString("username");
                         posts = s.getString("posts");
                         //userProfile = new UserProfile(username,user_id,community,posts);
-
+                        fullname_tv.setText(fullname);
                         community_tv.setText(community);
                         username_tv.setText(username);
                         posts_tv.setText(posts);
@@ -177,7 +181,7 @@ public class Profile extends AppCompatActivity {
         }
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         new GetPostTask().execute(token);
@@ -265,6 +269,6 @@ public class Profile extends AppCompatActivity {
             }
 
         }
-    }
+    }*/
 
 }

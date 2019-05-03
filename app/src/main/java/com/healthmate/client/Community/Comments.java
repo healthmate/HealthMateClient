@@ -46,7 +46,7 @@ import static com.healthmate.client.Community.Community.MY_PREFS_NAME;
 public class Comments extends AppCompatActivity {
 
     TextView comment,post_btn;
-    String token;
+    String token, profile_username;
     InputStream is = null;
     String line = null;
     String result = null;
@@ -55,9 +55,9 @@ public class Comments extends AppCompatActivity {
     private List<Comment> commentObjectList;
     String comment_post;
     String create_at;
-    String username,post_id;
+    String username,post_id, description;
     Comment commentObject;
-
+    TextView description_tv, username_tv;
     String message;
     String status;
 
@@ -68,6 +68,8 @@ public class Comments extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
 
+        description_tv = findViewById(R.id.display_description);
+        username_tv = findViewById(R.id.username);
         commentObjectList = new ArrayList<>();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -87,13 +89,14 @@ public class Comments extends AppCompatActivity {
 
         if(restoredText != null){
             token = prefs.getString("token",null);
+            profile_username = prefs.getString("profile_username",null);
             Log.e("TOKEN", token);
 
         }
         Bundle intent = getIntent().getExtras();
         if(intent != null){
             post_id = intent.getString("post_id");
-
+            description = intent.getString("description");
         }
         new GetCommentTask().execute(post_id,token);
 
@@ -109,7 +112,8 @@ public class Comments extends AppCompatActivity {
         commentAdapter = new CommentAdapter(this,commentObjectList);
         recyclerView.setAdapter(commentAdapter);
 
-
+        username_tv.setText(profile_username);
+        description_tv.setText(description);
 
         comment = findViewById(R.id.add_comment);
         post_btn = findViewById(R.id.post);
@@ -289,6 +293,7 @@ public class Comments extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
                     comment.setText("");
+                    new GetCommentTask().execute(post_id,token);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

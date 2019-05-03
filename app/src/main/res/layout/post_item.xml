@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="20dp">
+    android:paddingTop="3dp"
+    >
 
     <android.support.v7.widget.CardView
     android:layout_width="match_parent"
@@ -18,74 +19,91 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:orientation="horizontal"
-                android:id="@+id/desc_layout">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/display_description"
-                    android:layout_marginRight="20dp"
-                    android:text="description"
-
-                    android:textColor="@color/black"
-                    android:layout_marginLeft="8dp"
-                    android:textStyle="italic"
-                    />
-
-            </LinearLayout>
-
-
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:padding="5dp"
-                android:id="@+id/post_image"
-                android:src="@mipmap/user_image"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/desc_layout"/>
-
-        </RelativeLayout>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="5dp"
             >
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:id="@+id/image_profile"
-                android:src="@mipmap/user_image_round"/>
+                android:src="@mipmap/profile"
+                android:layout_marginStart="8dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="7dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/username"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="username"
+
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/post_time_stamp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="22m"
+
+                    />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/username"
-                android:layout_gravity="center_vertical"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/display_description"
+                android:text="@string/description"
                 android:textColor="@color/black"
-                android:text=""
-                android:paddingLeft="5dp"/>
+                android:layout_marginEnd="20dp"
+                android:typeface="serif"
+                android:textStyle="italic"
+                />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:id="@+id/post_image"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/user_image"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/display_description"
+                />
 
         </LinearLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:layout_marginStart="12dp"
             >
 
             <ImageView
@@ -103,6 +121,7 @@
                 android:layout_toEndOf="@+id/like"
                 tools:ignore="UnknownId"
                 android:layout_toRightOf="@+id/like"
+                android:layout_marginLeft="10dp"
                 />
 
         </RelativeLayout>
@@ -110,12 +129,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="20dp"
             android:id="@+id/likes"
             android:text="10 likes"
             android:textColor="@color/black"
-            android:layout_marginLeft="8dp"
             android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+
             />
 
 

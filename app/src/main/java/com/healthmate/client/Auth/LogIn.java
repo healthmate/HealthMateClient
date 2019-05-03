@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.healthmate.client.MainActivity;
 import com.healthmate.client.R;
 import com.healthmate.client.Services.UserService;
@@ -160,9 +161,10 @@ public class LogIn extends AppCompatActivity {
            progressBar.setVisibility(View.GONE);
            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
            try {
+               JSONObject data = s.getJSONObject("data");
                message = s.getString("message");
-               status = s.getString("status");
-
+               String username = data.getString("username");
+               String fullname = data.getString("fullname");
 
                Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
 
@@ -172,7 +174,8 @@ public class LogIn extends AppCompatActivity {
                editor.putString("login","true");
                editor.putString("token",auth_token);
                editor.putInt("steps", 0);
-               editor.putString("profile_username",status);
+               editor.putString("profile_username",username);
+               editor.putString("profile_fullname",fullname);
 
                Log.e("username", status);
                editor.apply();

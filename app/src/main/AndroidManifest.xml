@@ -6,21 +6,21 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.SET_ALARM"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
-
-
+    <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/hm_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Auth.LogIn"
+        <activity
+            android:name=".Auth.LogIn"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Auth.Register"
+        <activity
+            android:name=".Auth.Register"
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".MainActivity"
@@ -45,36 +46,46 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".Community.Search"
+        <activity
+            android:name=".Community.Search"
             tools:ignore="InnerclassSeparator" />
-        <activity android:name=".Community.Profile"
+        <activity
+            android:name=".Community.Profile"
             tools:ignore="InnerclassSeparator" />
-        <activity android:name=".Community.Comments"
+        <activity
+            android:name=".Community.Comments"
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".Community.OtherProfile"
             android:label="@string/title_activity_other_profile"
             android:theme="@style/AppTheme"
             tools:ignore="InnerclassSeparator" />
-        <activity android:name=".Activities.Activities"
-            tools:ignore="InnerclassSeparator"/>
+        <activity
+            android:name=".Activities.Activities"
+            tools:ignore="InnerclassSeparator" />
 
-        <service android:name=".ServiceClass.StepService"
+        <service
+            android:name=".ServiceClass.StepService"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE"
             tools:ignore="InnerclassSeparator" />
+        <service android:name=".JobService.StepsJobService" />
+        <service
+            android:name=".JobService.StoreStepsJobScheduler"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <receiver android:name=".BroadcastReceiver.StepReceiver"
+        <receiver
+            android:name=".BroadcastReceiver.NotificationReceiver"
             android:enabled="true"
             android:exported="false"
             tools:ignore="InnerclassSeparator" />
-
-        <receiver android:name=".BroadcastReceiver.NotificationReceiver"
+        <receiver
+            android:name=".BroadcastReceiver.StepsReceiver"
             android:enabled="true"
             android:exported="false"
             tools:ignore="InnerclassSeparator" />
-
-        <receiver android:name=".BroadcastReceiver.DeviceBootReceiver"
+        <receiver
+            android:name=".BroadcastReceiver.DeviceBootReceiver"
             android:enabled="false"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
@@ -82,7 +93,8 @@
             </intent-filter>
         </receiver>
 
-
+        <activity android:name=".Community.User_posts" />
+        <activity android:name=".Lifestyle.Lifestyle"></activity>
     </application>
 
 </manifest>

@@ -4,18 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Community.Community">
+    tools:context=".Community.Community"
+    android:background="#eaecef">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bar"
-        android:background="?android:attr/windowBackground">
+        android:background="#eaecef"
+        android:elevation="0dp"
+        app:elevation="0dp">
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/toolbar"
-            android:background="?android:attr/windowBackground">
+            android:background="#eaecef">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -26,32 +29,36 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:id="@+id/profile"
-                    android:src="@mipmap/user_image_round"
+                    android:src="@mipmap/profile"
                     />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Discover"
+                    android:textSize="30sp"
+                    android:layout_toEndOf="@+id/profile"
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/search_btn"
+                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/profile"
-                    android:layout_toEndOf="@+id/profile">
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:text="POST"
                         android:id="@+id/post"
-
-                        android:paddingLeft="20dp"
+                        android:src="@drawable/ic_post"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center"
                         />
                 </LinearLayout>
 
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    app:srcCompat="@drawable/ic_search"
-                    android:layout_alignParentRight="true"
-                    android:id="@+id/search_btn"
-                    />
+
 
             </RelativeLayout>
 

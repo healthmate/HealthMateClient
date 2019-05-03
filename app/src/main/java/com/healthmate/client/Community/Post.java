@@ -178,7 +178,7 @@ public class Post extends AppCompatActivity {
                 imageUri = result.getUri();
 
                 image_added.setImageURI(imageUri);
-                desciption.setText(imageUri.toString());
+
             }else{
                 finish();
             }

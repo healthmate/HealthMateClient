@@ -73,9 +73,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
         holder.btn_follow.setVisibility(View.VISIBLE);
         //isFollowing(user.getId(), holder.btn_follow);
         if (user.isFollowing()) {
-            holder.btn_follow.setText("following");
+            holder.btn_follow.setText("connected");
         } else {
-            holder.btn_follow.setText("follow");
+            holder.btn_follow.setText("connect");
         }
 
         holder.username.setText(user.getUsername());
@@ -87,6 +87,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
 
                 Intent intent = new Intent(mContext, OtherProfile.class);
                 intent.putExtra("user_id", user.getUser_id());
+                intent.putExtra("isFollowing", Boolean.toString(user.isFollowing()));
                 mContext.startActivity(intent);
 
 
@@ -96,7 +97,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
         holder.btn_follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.btn_follow.getText().toString().equals("follow")) {
+                if (holder.btn_follow.getText().toString().equals("connect")) {
                     SharedPreferences prefs = mContext.getSharedPreferences(MY_PREFS_NAME,MODE_PRIVATE);
                     String restoredText = prefs.getString("login", null);
 
@@ -105,8 +106,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
                     }
 
                     new FollowTask().execute(token, user.getUser_id());
-                } else {
-
                 }
             }
 
@@ -204,7 +203,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
                 message = s.getString("message");
                 status = s.getString("status");
 
-
+                Toast.makeText(mContext,message,Toast.LENGTH_LONG).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

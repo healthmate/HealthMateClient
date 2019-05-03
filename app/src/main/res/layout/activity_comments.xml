@@ -12,52 +12,103 @@ tools:context=".Community.Comments">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/windowBackground"/>
-
-<android.support.v7.widget.RecyclerView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/recycler_view"
-    android:layout_above="@id/bottom"
-    android:layout_below="@id/toolbar"/>
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/bottom"
-    android:background="#fff"
-    android:padding="4dp"
-    android:layout_alignParentBottom="true">
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/image_profile"
-        android:src="@mipmap/user_image_round"/>
-
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/image_profile"
-        android:hint="Add a comment..."
-        android:id="@+id/add_comment"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@android:color/transparent"
-        android:layout_toLeftOf="@id/post"/>
+        android:orientation="vertical"
+        android:id="@+id/top"
+        android:layout_below="@id/toolbar">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/image_profile1"
+                android:src="@mipmap/profile"
+                android:layout_marginStart="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/username"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="username"
+                    android:layout_marginStart="7dp"
+                    />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/display_description"
+                android:text="@string/description"
+                android:textColor="@color/black"
+                android:layout_marginEnd="20dp"
+
+                android:textStyle="italic"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="POST"
-        android:id="@+id/post"
-        android:layout_marginEnd="5dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:textColor="@color/colorPrimary"
-        android:layout_marginRight="5dp"
-        android:layout_alignParentRight="true" />
+        android:id="@+id/recycler_view"
+        android:layout_above="@id/bottom"
+        android:layout_below="@id/top"
+        android:layout_margin="8dp"/>
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom"
+        android:background="#fff"
+        android:padding="4dp"
+        android:layout_alignParentBottom="true">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/image_profile"
+            android:hint="comment..."
+            android:id="@+id/add_comment"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/edittext_rounded_corner"
+            android:layout_toLeftOf="@id/post"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="POST"
+            android:id="@+id/post"
+            android:layout_marginEnd="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
