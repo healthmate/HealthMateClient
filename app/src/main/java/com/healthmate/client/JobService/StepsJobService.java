@@ -58,7 +58,7 @@ public class StepsJobService extends Service implements SensorEventListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        stepDect = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        stepDect = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
         sensorManager.registerListener(this, stepDect, SensorManager.SENSOR_DELAY_FASTEST);
 
@@ -93,7 +93,7 @@ public class StepsJobService extends Service implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        if (sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
 
             inc_steps();
 

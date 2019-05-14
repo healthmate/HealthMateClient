@@ -49,6 +49,7 @@ public class User_posts extends AppCompatActivity {
     PostObject postObject;
     String token,user_id,post_id,username,current_userid,purpose, profile_username;
     TextView TvUsername;
+    Boolean is_liked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,8 +187,11 @@ public class User_posts extends AppCompatActivity {
                         username = jo.getString("username");
                         likes = jo.getString("likes");
                         post_id = jo.getString("post_id");
+                        String profile_pic = jo.getString("profile_pic");
+                        is_liked = jo.getBoolean("is_liked");
                         Log.e("IMAGE_URL "+i, image_url);
-                        postObject = new PostObject(description, image_url, create_at, user_id, username,likes,post_id);
+                        postObject = new PostObject(description, image_url, create_at, user_id,
+                                username,likes,post_id, profile_pic, is_liked);
                         postObjectList.add(postObject);
                     }
                     postAdapter.notifyDataSetChanged();

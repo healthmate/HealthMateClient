@@ -1,6 +1,7 @@
 package com.healthmate.client.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -20,8 +21,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.buffer.BarBuffer;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -44,6 +48,8 @@ import com.github.mikephil.charting.renderer.BarChartRenderer;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
+import com.healthmate.client.Auth.LogIn;
+import com.healthmate.client.Community.Profile;
 import com.healthmate.client.JobService.StepsJobService;
 import com.healthmate.client.Objects.ChallengeAdapter;
 import com.healthmate.client.Objects.ChallengeObject;
@@ -67,13 +73,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static android.content.Context.MODE_PRIVATE;
 import static com.healthmate.client.Community.Community.MY_PREFS_NAME;
 
 public class Activities extends Fragment {
 
     private TextView TvSteps,TvUsername;
-    String token,username;
+    String token,username,profile_pic;
     Sensor motion;
     Sensor stepDect;
     BarChart mChart;
@@ -95,7 +103,7 @@ public class Activities extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(MY_PREFS_NAME,MODE_PRIVATE);
         String restoredText = prefs.getString("login", null);
-
+        View view = inflater.inflate(R.layout.activity_activities,container, false);
         if(restoredText != null){
 
             numSteps = prefs.getInt("steps", -1);
@@ -103,11 +111,16 @@ public class Activities extends Fragment {
             Log.e("steps", Integer.toString(numSteps) );
             token = prefs.getString("token",null);
             username = prefs.getString("profile_username",null);
+            profile_pic = prefs.getString("profile_pic", null);
+            CircleImageView profile = view.findViewById(R.id.profile);
+            Glide.with(view.getContext())
+                    .load(profile_pic)
+                    .into(profile);
 
             new StoreSteps().execute(String.valueOf(numSteps), token);
         }
         ///// Initializing Recycle View ...
-        View view = inflater.inflate(R.layout.activity_activities,container, false);
+
         challengeObjectList = new ArrayList<>();
 
 
@@ -148,17 +161,28 @@ public class Activities extends Fragment {
         TvUsername = (TextView) Objects.requireNonNull(getView().findViewById(R.id.profile_username));
         TvUsername.setText(username);
 
+        CircleImageView profile = view.findViewById(R.id.profile);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), Profile.class));
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
         ///call get Challenge task again
-        new GetChallengeTask().execute(token);
+        ///new GetChallengeTask().execute(token);
     }
 
     @SuppressLint("StaticFieldLeak")
     class StoreSteps extends AsyncTask<String, String, Integer> {
+        @Override
+        protected void onPreExecute() {
+
+        }
 
         @Override
         protected Integer doInBackground(String... strings) {
@@ -366,14 +390,10 @@ public class Activities extends Fragment {
 
             return null;
         }
-        private String date;
-        private String steps;
+
+
         @Override
         protected void onPostExecute(JSONArray s) {
-
-
-
-
             mChart.setDrawBarShadow(false);
             mChart.setDrawValueAboveBar(true);
             mChart.setMaxVisibleValueCount(50);
@@ -391,8 +411,8 @@ public class Activities extends Fragment {
                 try {
                     for (int i = 0; i < s.length(); i++) {
                         JSONObject jo = s.getJSONObject(i);
-                        date = jo.getString("date");
-                        steps = jo.getString("steps");
+                        String date = jo.getString("date");
+                        String steps = jo.getString("steps");
 
                         barEntries.add(new BarEntry(i, Float.parseFloat(steps)));
                         String[] parts = date.split(",", 2);
@@ -400,7 +420,7 @@ public class Activities extends Fragment {
                         Log.e("days", "onPostExecute: " + parts[0] );
 
                     }
-
+                    Log.e("days", "onPostExecute: " + days );
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -415,8 +435,15 @@ public class Activities extends Fragment {
 
 
                 XAxis axis = mChart.getXAxis();
-                axis.setLabelCount(days.size(),true);
+                axis.setCenterAxisLabels(true);
+                axis.setGranularity(1f);
+
+                //
+
+
+                axis.setLabelCount(days.size()+1,true);
                 axis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                axis.setGranularityEnabled(true);
                 mChart.getAxisLeft().setDrawLabels(false);
                 mChart.getAxisRight().setDrawLabels(false);
                 mChart.getLegend().setEnabled(false);
@@ -433,13 +460,19 @@ public class Activities extends Fragment {
                 axis.setValueFormatter(new IndexAxisValueFormatter(){
                     @Override
                     public String getFormattedValue(float value) {
-                        return days.get((int)value);
+                        int index = Math.round(value);
+                        if(index >= days.size()){
+                            index = days.size()-1;
+                        }
+                        return days.get(index);
                     }
                 });
                 mChart.setRenderer(new MyBarRenderer(mChart,
                         mChart.getAnimator(),
                         mChart.getViewPortHandler()));
                 mChart.setData(data);
+                mChart.notifyDataSetChanged();
+                mChart.invalidate();
             }
 
         }

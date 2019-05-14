@@ -64,7 +64,7 @@ public class Post extends AppCompatActivity {
     InputStream is = null;
     String line = null;
     String result = null;
-    ProgressBar progressBar;
+    ProgressDialog progressDialog;
     String token;
 
     String message;
@@ -74,7 +74,7 @@ public class Post extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-
+        progressDialog =new ProgressDialog(this);
         image_added = findViewById(R.id.user_image);
         post = findViewById(R.id.commandPost);
         desciption = findViewById((R.id.description));
@@ -123,10 +123,11 @@ public class Post extends AppCompatActivity {
     }
 
     private void uploadImage(){
-        final ProgressDialog progressDialog =new ProgressDialog(this);
-        progressDialog.setMessage("Posting");
-        progressDialog.show();
 
+        progressDialog.setMessage("Posting");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         if(imageUri != null){
 
             final StorageReference filereference = storageReference.child(System.currentTimeMillis()
@@ -136,6 +137,8 @@ public class Post extends AppCompatActivity {
                  @Override
                  public Object then(@NonNull Task task) throws Exception {
                      if(!task.isSuccessful()){
+                         progressDialog.dismiss();
+                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                          throw task.getException();
                      }
 
@@ -150,21 +153,25 @@ public class Post extends AppCompatActivity {
 
                          new PostTask().execute(desciption.getText().toString(),myurl, token);
 
-                         progressDialog.dismiss();
-                         finish();
 
                      }else{
                          Toast.makeText(getApplicationContext(),"Outer Failed",Toast.LENGTH_SHORT).show();
+                         progressDialog.dismiss();
+                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                      }
                  }
              }).addOnFailureListener(new OnFailureListener() {
                  @Override
                  public void onFailure(@NonNull Exception e) {
                      Toast.makeText(getApplicationContext(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
+                     progressDialog.dismiss();
+                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                  }
              });
         }else{
             Toast.makeText(this,"No Image Selected", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
     }
 
@@ -194,11 +201,6 @@ public class Post extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
 
-
-            progressBar = new ProgressBar(Post.this, null, android.R.attr.progressBarStyleLarge);
-
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            progressBar.setVisibility(View.VISIBLE);
         }
 
 
@@ -259,8 +261,9 @@ public class Post extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(JSONObject s) {
-            progressBar.setVisibility(View.GONE);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            progressDialog.dismiss();
+
             if(s != null){
                 try {
                     message = s.getString("message");
@@ -275,7 +278,7 @@ public class Post extends AppCompatActivity {
             else{
                 Toast.makeText(getApplicationContext(),"Post not successful",Toast.LENGTH_LONG).show();
             }
-
+            finish();
 
         }
     }

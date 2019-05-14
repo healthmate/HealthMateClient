@@ -20,6 +20,8 @@ import com.healthmate.client.R;
 import java.io.InputStream;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static android.content.Context.MODE_PRIVATE;
 import static com.healthmate.client.Auth.LogIn.MY_PREFS_NAME;
 
@@ -31,7 +33,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     String line = null;
     String result = null;
     String token;
-    Comment comment;
 
     public CommentAdapter(Context mContext, List<Comment> mPost) {
         this.mContext = mContext;
@@ -50,9 +51,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final CommentAdapter.ViewHolder viewHolder, int i) {
 
-        comment = mPost.get(i);
+        Comment comment = mPost.get(i);
         viewHolder.username.setText(comment.getUsername());
-
+        Glide.with(mContext)
+                .load(comment.getProfile_pic())
+                .into(viewHolder.profile_tv);
         viewHolder.comment_tv.setText(comment.getComment());
 
     }
@@ -65,12 +68,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView username, comment_tv;
+        public CircleImageView profile_tv;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             comment_tv = itemView.findViewById(R.id.comment);
             username = itemView.findViewById(R.id.username);
+            profile_tv = itemView.findViewById(R.id.image_profile);
         }
     }
 }

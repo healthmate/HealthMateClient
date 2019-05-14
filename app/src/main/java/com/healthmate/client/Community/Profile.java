@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.healthmate.client.Objects.PostAdapter;
 import com.healthmate.client.Objects.PostObject;
 import com.healthmate.client.Objects.UserProfile;
@@ -33,6 +34,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static com.healthmate.client.Community.Community.MY_PREFS_NAME;
 
 public class Profile extends AppCompatActivity {
@@ -40,8 +43,8 @@ public class Profile extends AppCompatActivity {
     InputStream is = null;
     String line = null;
     String result = null;
-    String community,user_id,username,posts,post_id;
-    TextView posts_tv,username_tv,community_tv,fullname_tv;
+    String community,user_id,username,posts,steps,profile_pic;
+    TextView posts_tv,username_tv,community_tv,fullname_tv, steps_tv;
     String token, fullname;
 
     @Override
@@ -53,6 +56,7 @@ public class Profile extends AppCompatActivity {
         username_tv = findViewById(R.id.username);
         community_tv = findViewById(R.id.following);
         fullname_tv = findViewById(R.id.full_name);
+        steps_tv = findViewById(R.id.steps);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,7 +77,11 @@ public class Profile extends AppCompatActivity {
             token = prefs.getString("token",null);
             fullname = prefs.getString("profile_fullname", null);
             Log.e("TOKEN", token);
-
+            profile_pic = prefs.getString("profile_pic", null);
+            CircleImageView profile = findViewById(R.id.image_profile);
+            Glide.with(this)
+                    .load(profile_pic)
+                    .into(profile);
         }
 
         new UserProfileTask().execute(token);
@@ -87,21 +95,7 @@ public class Profile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*postObjectList = new ArrayList<>();
 
-        new GetPostTask().execute(token);
-
-        Log.e("Postobj ", postObjectList.toString());
-        recyclerView = findViewById(R.id.recycler_view_profile);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-
-        postAdapter = new PostAdapter(this,postObjectList);
-        recyclerView.setAdapter(postAdapter);*/
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -168,11 +162,13 @@ public class Profile extends AppCompatActivity {
                         Log.e("cuserid", user_id);
                         username = s.getString("username");
                         posts = s.getString("posts");
+                        steps = s.getString("steps_today");
                         //userProfile = new UserProfile(username,user_id,community,posts);
                         fullname_tv.setText(fullname);
                         community_tv.setText(community);
                         username_tv.setText(username);
                         posts_tv.setText(posts);
+                        steps_tv.setText(steps);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -182,94 +178,5 @@ public class Profile extends AppCompatActivity {
         }
     }
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        new GetPostTask().execute(token);
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class GetPostTask extends AsyncTask<String, String, JSONArray> {
-        @Override
-        protected void onPreExecute() {
-
-        }
-
-
-        @Override
-        protected JSONArray doInBackground(String... strings) {
-
-            String auth_token = strings[0];
-            try {
-                Log.e("IOexcep", "try");
-                URL url = new URL("https://healthmate-api-heroku.herokuapp.com/getuserposts");
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-                con.setRequestProperty("Authorization", "JWT "+auth_token);
-                con.connect();
-
-                int resp=con.getResponseCode();
-                Log.e("IOexcep", Integer.toString(resp));
-                Log.e("IOexcep", "connnect");
-
-                is = new BufferedInputStream(con.getInputStream());
-                //READ IS content into a string
-                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
-                StringBuilder sb = new StringBuilder();
-
-                while ((line = br.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-
-                result = sb.toString();
-                is.close();
-                br.close();
-                con.disconnect();
-
-                Log.e("doInbackground", result );
-
-                return new JSONArray(result);
-
-
-            } catch (MalformedURLException e) {
-                Log.e("IOexcep", "Malformed URL");
-            } catch (IOException e) {
-                Log.e("IOexcep", "Not Connected");
-            } catch (JSONException e) {
-                Log.e("JSONexcep", "JSON Error");
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(JSONArray s) {
-            postObjectList.clear();
-            if(s!=null) {
-                try {
-                    for (int i = 0; i < s.length(); i++) {
-                        JSONObject jo = s.getJSONObject(i);
-                        description = jo.getString("description");
-                        image_url = jo.getString("image_url");
-                        create_at = jo.getString("create_at");
-                        user_id = jo.getString("user_id");
-                        username = jo.getString("username");
-                        likes = jo.getString("likes");
-                        post_id = jo.getString("post_id");
-                        Log.e("IMAGE_URL "+i, image_url);
-                        postObject = new PostObject(description, image_url, create_at, user_id, username,likes,post_id);
-                        postObjectList.add(postObject);
-                    }
-                    postAdapter.notifyDataSetChanged();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        }
-    }*/
 
 }

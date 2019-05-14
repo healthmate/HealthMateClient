@@ -9,5 +9,6 @@
     <color name="colorGreen">#4cab03</color>
     <color name="colorWindow">?android:attr/windowBackground</color>
     <color name="black">#403d3d</color>
+    <color name="auth_color">#073319</color>
 
 </resources>

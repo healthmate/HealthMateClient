@@ -8,9 +8,11 @@ public class PostObject {
     private String username;
     private String likes;
     private String post_id;
+    private String profile_pic;
+    private  Boolean is_liked;
 
-
-    public PostObject(String description, String image_url, String create_at, String user_id, String username, String likes, String post_id){
+    public PostObject(String description, String image_url, String create_at,
+                      String user_id, String username, String likes, String post_id, String profile_pic, Boolean is_liked){
         this.description = description;
         this.image_url = image_url;
         this.create_at = create_at;
@@ -18,6 +20,24 @@ public class PostObject {
         this.username = username;
         this.likes = likes;
         this.post_id = post_id;
+        this.profile_pic = profile_pic;
+        this.is_liked = is_liked;
+    }
+
+    public Boolean getIs_liked() {
+        return is_liked;
+    }
+
+    public void setIs_liked(Boolean is_liked) {
+        this.is_liked = is_liked;
+    }
+
+    public String getProfile_pic() {
+        return profile_pic;
+    }
+
+    public void setProfile_pic(String profile_pic) {
+        this.profile_pic = profile_pic;
     }
 
     public String getPost_id() {

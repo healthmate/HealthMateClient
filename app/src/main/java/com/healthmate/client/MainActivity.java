@@ -2,10 +2,8 @@ package com.healthmate.client;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,10 +12,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.healthmate.client.Activities.Activities;
-import com.healthmate.client.BroadcastReceiver.DeviceBootReceiver;
 import com.healthmate.client.BroadcastReceiver.StepsReceiver;
 import com.healthmate.client.BroadcastReceiver.NotificationReceiver;
 import com.healthmate.client.Community.Community;
@@ -34,22 +30,18 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment selectedFragment = new Lifestyle();
-            item.setIcon(R.drawable.ic_carrot);
+
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    item.setIcon(R.drawable.ic_carrot);
+                case R.id.navigation_lifestyle:
 
                     selectedFragment = new Lifestyle();
-
                     break;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_activities:
 
-                    item.setIcon(R.drawable.ic_walk);
                     selectedFragment = new Activities();
                     break;
-                case R.id.navigation_notifications:
+                case R.id.navigation_community:
 
-                    item.setIcon(R.drawable.ic_meeting);
                     selectedFragment = new Community();
                     break;
             }

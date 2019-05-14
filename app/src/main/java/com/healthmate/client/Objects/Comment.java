@@ -5,12 +5,22 @@ public class Comment {
     private String username;
     private String comment;
     private String create_at;
+    private String profile_pic;
 
-    public Comment(String username,String comment, String create_at){
+    public Comment(String username,String comment, String create_at, String profile_pic){
 
         this.username = username;
         this.comment = comment;
         this.create_at = create_at;
+        this.profile_pic = profile_pic;
+    }
+
+    public String getProfile_pic() {
+        return profile_pic;
+    }
+
+    public void setProfile_pic(String profile_pic) {
+        this.profile_pic = profile_pic;
     }
 
     public String getUsername() {

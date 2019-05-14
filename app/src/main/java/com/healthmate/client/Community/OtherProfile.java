@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.healthmate.client.Objects.PostAdapter;
 import com.healthmate.client.Objects.PostObject;
 import com.healthmate.client.Objects.UserAdapter;
@@ -34,6 +35,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static com.healthmate.client.Community.Community.MY_PREFS_NAME;
 
 public class OtherProfile extends AppCompatActivity {
@@ -41,11 +44,11 @@ public class OtherProfile extends AppCompatActivity {
     InputStream is = null;
     String line = null;
     String result = null;
-    TextView posts_tv,username_tv,community_tv,fullname_tv;
-    String community,user_id,username,posts,post_id,token,current_userid, message,status,fullname;
+    TextView posts_tv,username_tv,community_tv,fullname_tv, steps_tv;
+    String community,user_id,username,posts,steps,token,current_userid, message,status,fullname;
     Boolean isFollowing;
     Button connect_btn;
-
+    String profile_pic;
 
 
     @Override
@@ -58,6 +61,8 @@ public class OtherProfile extends AppCompatActivity {
         community_tv = findViewById(R.id.following);
         fullname_tv = findViewById(R.id.full_name);
         connect_btn = findViewById(R.id.connect_button);
+        steps_tv = findViewById(R.id.steps);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,6 +73,13 @@ public class OtherProfile extends AppCompatActivity {
             }
         });
 
+        Bundle intent = getIntent().getExtras();
+        if(intent != null){
+            current_userid = intent.getString("user_id");
+            profile_pic = intent.getString("profile_pic");
+            isFollowing = Boolean.parseBoolean(intent.getString("isFollowing"));
+        }
+
         SharedPreferences prefs = this.getSharedPreferences(MY_PREFS_NAME,MODE_PRIVATE);
 
         String restoredText = prefs.getString("login", null);
@@ -75,12 +87,10 @@ public class OtherProfile extends AppCompatActivity {
         if(restoredText != null){
             token = prefs.getString("token",null);
             Log.e("TOKEN", token);
-
-        }
-        Bundle intent = getIntent().getExtras();
-        if(intent != null){
-            current_userid = intent.getString("user_id");
-            isFollowing = Boolean.parseBoolean(intent.getString("isFollowing"));
+            CircleImageView profile = findViewById(R.id.image_profile);
+            Glide.with(this)
+                    .load(profile_pic)
+                    .into(profile);
         }
 
         if(isFollowing){
@@ -188,12 +198,13 @@ public class OtherProfile extends AppCompatActivity {
                     username = s.getString("username");
                     posts = s.getString("posts");
                     fullname = s.getString("full_name");
-                    Log.e("2usd", user_id);
+                    steps = s.getString("steps_today");
 
                     fullname_tv.setText(fullname);
                     community_tv.setText(community);
                     username_tv.setText(username);
                     posts_tv.setText(posts);
+                    steps_tv.setText(steps);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -90,11 +90,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         Glide.with(mContext)
                 .load(postObject.getImage_url())
                 .into(viewHolder.post_image);
+        Glide.with(mContext)
+                .load(postObject.getProfile_pic())
+                .into(viewHolder.profile_pic);
         if (postObject.getDescription().equals("")) {
             viewHolder.description.setVisibility(View.GONE);
         } else {
             viewHolder.description.setVisibility(View.VISIBLE);
             viewHolder.description.setText('"'+postObject.getDescription()+'"');
+        }
+
+        if(postObject.getIs_liked()){
+            viewHolder.like.setTag("liked");
+            viewHolder.like.setImageResource(R.drawable.ic_liked);
+        }else{
+            viewHolder.like.setTag("notliked");
+            viewHolder.like.setImageResource(R.drawable.ic_like);
         }
 
         SharedPreferences prefs = mContext.getSharedPreferences(MY_PREFS_NAME,MODE_PRIVATE);
@@ -107,7 +118,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         }
 
-        isLiked(postObject.getPost_id(), viewHolder.like, token);
 
         viewHolder.like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +162,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView post_image,like,comment_post;
+        public ImageView post_image,like,comment_post, profile_pic;
         public TextView username, description, likes;
 
         public ViewHolder(View itemView) {
@@ -164,66 +174,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             likes = itemView.findViewById(R.id.likes);
             like = itemView.findViewById(R.id.like);
             comment_post = itemView.findViewById(R.id.comment);
+            profile_pic = itemView.findViewById(R.id.image_profile);
         }
-    }
-
-    private void isLiked(String postid,final ImageView imageView, String tok){
-
-        MyTaskParams myTaskParams = new MyTaskParams(postid,tok,imageView);
-        new checkLikerTask().execute(myTaskParams);
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class checkLikerTask extends AsyncTask<MyTaskParams, Void, Integer> {
-
-        @Override
-        protected Integer doInBackground(MyTaskParams...params) {
-
-            String postid = params[0].postid;
-            String auth_token = params[0].auth_token;
-            ImageView imageView = params[0].img;
-
-            Log.e("token", auth_token);
-
-            try {
-                Log.e("IOexcep", "try");
-                URL url = new URL("https://healthmate-api-heroku.herokuapp.com/checkliker/" + postid);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("POST");
-                con.setRequestProperty("Authorization", "JWT "+auth_token);
-                con.setDoOutput(true);
-                con.setRequestProperty("Content-Type","application/json");
-                con.connect();
-
-                JSONObject jsonparam = new JSONObject();
-
-                OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
-                out.write(jsonparam.toString());
-                out.close();
-                int result=con.getResponseCode();
-                Log.e("IOexcep", "connnect");
-                Log.e("IOexcep", Integer.toString(result));
-
-                con.disconnect();
-
-                if (result == 200){
-                    imageView.setImageResource(R.drawable.ic_liked);
-                    imageView.setTag("liked");
-                }else{
-                    imageView.setImageResource(R.drawable.ic_like);
-                    imageView.setTag("notliked");
-                }
-
-
-            } catch (MalformedURLException e) {
-                Log.e("IOexcep", "Malformed URL");
-            } catch (IOException e) {
-                Log.e("IOexcep", "Not Connected");
-            }
-
-            return 1;
-        }
-
     }
 
     @SuppressLint("StaticFieldLeak")

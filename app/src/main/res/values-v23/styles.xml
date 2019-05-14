@@ -10,4 +10,17 @@
 
     </style>
 
+    <style name="Register" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorBackground</item>
+        <item name="colorAccent">#739968</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+
+        <item name="android:statusBarColor">@color/auth_color</item>
+
+
+    </style>
 </resources>

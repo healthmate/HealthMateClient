@@ -199,7 +199,8 @@ public class Search extends AppCompatActivity {
                         Log.e("isF", s.getString("community"));
                         user_id = s.getString("user_id");
                         username = s.getString("username");
-                        user = new User(username,isFollowing, user_id);
+                        String profile_pic = s.getString("profile_pic");
+                        user = new User(username,isFollowing, user_id, profile_pic);
                         userList.add(user);
 
 

@@ -1,6 +1,7 @@
 package com.healthmate.client.Community;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,10 +15,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.healthmate.client.Objects.Comment;
 import com.healthmate.client.Objects.CommentAdapter;
 import com.healthmate.client.Objects.PostAdapter;
@@ -41,6 +44,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static com.healthmate.client.Community.Community.MY_PREFS_NAME;
 
 public class Comments extends AppCompatActivity {
@@ -55,11 +60,13 @@ public class Comments extends AppCompatActivity {
     private List<Comment> commentObjectList;
     String comment_post;
     String create_at;
-    String username,post_id, description;
+    String username,post_id, description, int_profile_pic, profile_pic;
     Comment commentObject;
     TextView description_tv, username_tv;
     String message;
     String status;
+    ImageView profile;
+    ProgressDialog progressDialog;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -71,6 +78,7 @@ public class Comments extends AppCompatActivity {
         description_tv = findViewById(R.id.display_description);
         username_tv = findViewById(R.id.username);
         commentObjectList = new ArrayList<>();
+        progressDialog = new ProgressDialog(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -90,7 +98,11 @@ public class Comments extends AppCompatActivity {
         if(restoredText != null){
             token = prefs.getString("token",null);
             profile_username = prefs.getString("profile_username",null);
-            Log.e("TOKEN", token);
+            profile_pic = prefs.getString("profile_pic", null);
+            CircleImageView circleImageView = findViewById(R.id.image_profile1);
+            Glide.with(this)
+                    .load(profile_pic)
+                    .into(circleImageView);
 
         }
         Bundle intent = getIntent().getExtras();
@@ -205,8 +217,9 @@ public class Comments extends AppCompatActivity {
                         create_at = jo.getString("create_at");
                         username = jo.getString("username");
                         comment_post = jo.getString("comment");
+                        int_profile_pic = jo.getString("profile_pic");
                         Log.e("comment", comment_post );
-                        commentObject = new Comment(username, comment_post, create_at);
+                        commentObject = new Comment(username, comment_post, create_at,int_profile_pic);
                         commentObjectList.add(commentObject);
                     }
                     commentAdapter.notifyDataSetChanged();
@@ -224,7 +237,10 @@ public class Comments extends AppCompatActivity {
     class PostTask extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute() {
-
+            progressDialog.setMessage("Posting");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
 
 
@@ -270,7 +286,6 @@ public class Comments extends AppCompatActivity {
 
                 return new JSONObject(result);
 
-
             } catch (MalformedURLException e) {
                 Log.e("IOexcep", "Malformed URL");
             } catch (IOException e) {
@@ -278,7 +293,6 @@ public class Comments extends AppCompatActivity {
             } catch (JSONException e) {
                 Log.e("JSONexcep", "JSON Error");
             }
-
 
             return null;
         }
@@ -289,7 +303,8 @@ public class Comments extends AppCompatActivity {
                 try {
                     message = s.getString("message");
                     status = s.getString("status");
-
+                    progressDialog.dismiss();
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                     Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
                     comment.setText("");

@@ -15,8 +15,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.healthmate.client.Community.OtherProfile;
 import com.healthmate.client.Community.Post;
+import com.healthmate.client.Community.Search;
 import com.healthmate.client.R;
 
 import org.json.JSONException;
@@ -79,7 +81,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
         }
 
         holder.username.setText(user.getUsername());
-        //Glide.with(mContext).load(user.getImageurl()).into(holder.image_profile);
+        Glide.with(mContext).load(user.getProfile_pic()).into(holder.image_profile);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,8 +90,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
                 Intent intent = new Intent(mContext, OtherProfile.class);
                 intent.putExtra("user_id", user.getUser_id());
                 intent.putExtra("isFollowing", Boolean.toString(user.isFollowing()));
+                intent.putExtra("profile_pic", user.getProfile_pic());
                 mContext.startActivity(intent);
-
 
             }
         });
@@ -106,6 +108,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
                     }
 
                     new FollowTask().execute(token, user.getUser_id());
+                    holder.btn_follow.setText("CONNECTED");
                 }
             }
 
@@ -114,8 +117,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
         holder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                Intent intent = new Intent(mContext, OtherProfile.class);
+                intent.putExtra("user_id", user.getUser_id());
+                intent.putExtra("isFollowing", Boolean.toString(user.isFollowing()));
+                intent.putExtra("profile_pic", user.getProfile_pic());
+                mContext.startActivity(intent);
             }
         });
     }
@@ -204,6 +210,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ImageViewHolde
                 status = s.getString("status");
 
                 Toast.makeText(mContext,message,Toast.LENGTH_LONG).show();
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

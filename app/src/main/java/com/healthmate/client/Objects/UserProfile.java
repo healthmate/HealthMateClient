@@ -6,13 +6,23 @@ public class UserProfile {
     private String community;
     private String user_id;
     private String posts;
+    private  String steps_today;
 
-    public UserProfile(String username,String community, String posts, String user_id){
+    public UserProfile(String username,String community, String posts, String user_id, String steps_today){
 
         this.username = username;
         this.user_id = user_id;
         this.community = community;
         this.posts = posts;
+        this.steps_today = steps_today;
+    }
+
+    public String getSteps_today() {
+        return steps_today;
+    }
+
+    public void setSteps_today(String steps_today) {
+        this.steps_today = steps_today;
     }
 
     public String getUsername() {

@@ -16,6 +16,6 @@
                               e.g. #d2019-04-28.\n
                             3.goal - hashtag should start with a 'g' e.g. #g10000</string>
     <string name="lifestyle">Lifestyle</string>
-    <string name="activity">Activity</string>
+    <string name="activity">Activities</string>
     <string name="community">Community</string>
 </resources>

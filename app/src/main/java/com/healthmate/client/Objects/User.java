@@ -7,12 +7,22 @@ public class User {
     private String username;
     private boolean isFollowing;
     private String user_id;
+    public  String profile_pic;
 
-    public User(String username,boolean isFollowing, String user_id){
+    public User(String username,boolean isFollowing, String user_id, String profile_pic){
 
         this.username = username;
         this.user_id = user_id;
         this.isFollowing = isFollowing;
+        this.profile_pic = profile_pic;
+    }
+
+    public String getProfile_pic() {
+        return profile_pic;
+    }
+
+    public void setProfile_pic(String profile_pic) {
+        this.profile_pic = profile_pic;
     }
 
     public String getUsername() {

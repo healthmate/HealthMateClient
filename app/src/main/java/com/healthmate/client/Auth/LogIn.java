@@ -1,6 +1,7 @@
 package com.healthmate.client.Auth;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -41,7 +42,7 @@ public class LogIn extends AppCompatActivity {
     InputStream is = null;
     String line = null;
     String result = null;
-    ProgressBar progressBar;
+    ProgressDialog progressDialog;
     String message;
     String auth_token;
     String status;
@@ -57,6 +58,7 @@ public class LogIn extends AppCompatActivity {
         final Button btn_login = findViewById(R.id.login);
 
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
+        progressDialog = new ProgressDialog(this);
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME,MODE_PRIVATE);
         String restoredText = prefs.getString("login", null);
@@ -79,6 +81,14 @@ public class LogIn extends AppCompatActivity {
 
             }
         });
+
+        findViewById(R.id.register_link).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LogIn.this, Register.class));
+
+            }
+        });
     }
 
 
@@ -86,14 +96,14 @@ public class LogIn extends AppCompatActivity {
    class LoginTask extends AsyncTask<String, String, JSONObject> {
        @Override
        protected void onPreExecute() {
-
-
-           progressBar = new ProgressBar(LogIn.this, null, android.R.attr.progressBarStyleLarge);
+           progressDialog.setMessage("Login in...");
+           progressDialog.setCancelable(false);
+           progressDialog.show();
            /*LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100, 100);
            params.addRule(RelativeLayout.CENTER_IN_PARENT);
            layout.addView(progressBar, params);*/
            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-           progressBar.setVisibility(View.VISIBLE);
+
        }
 
 
@@ -158,16 +168,16 @@ public class LogIn extends AppCompatActivity {
 
        @Override
        protected void onPostExecute(JSONObject s) {
-           progressBar.setVisibility(View.GONE);
+           progressDialog.dismiss();
            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
            try {
                JSONObject data = s.getJSONObject("data");
                message = s.getString("message");
                String username = data.getString("username");
                String fullname = data.getString("fullname");
+               String profile_pic = data.getString("profile_pic");
 
                Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
-
 
                auth_token = s.getString("auth_token");
                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME,MODE_PRIVATE).edit();
@@ -176,6 +186,7 @@ public class LogIn extends AppCompatActivity {
                editor.putInt("steps", 0);
                editor.putString("profile_username",username);
                editor.putString("profile_fullname",fullname);
+               editor.putString("profile_pic",profile_pic);
 
 
                editor.apply();

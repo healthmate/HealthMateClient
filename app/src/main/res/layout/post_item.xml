@@ -55,7 +55,7 @@
                     android:textSize="11sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:text="22m"
+                    android:text=""
 
                     />
 

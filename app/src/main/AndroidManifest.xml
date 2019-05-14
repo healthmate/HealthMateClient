@@ -18,10 +18,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/hm_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".Auth.LogIn"
-            tools:ignore="InnerclassSeparator">
+            tools:ignore="InnerclassSeparator"
+            android:theme="@style/Register">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,16 +30,17 @@
             </intent-filter>
         </activity>
         <activity
+
             android:name=".Auth.Register"
-            tools:ignore="InnerclassSeparator" />
+            tools:ignore="InnerclassSeparator"
+            android:theme="@style/Register">
+
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" />
-        <activity
-            android:name=".Community.Community"
-            android:label="@string/title_activity_community"
-            android:theme="@style/AppTheme.NoActionBar"
-            tools:ignore="InnerclassSeparator" />
+
         <activity
             android:name=".Community.Post"
             android:label="Post"
@@ -60,9 +62,7 @@
             android:label="@string/title_activity_other_profile"
             android:theme="@style/AppTheme"
             tools:ignore="InnerclassSeparator" />
-        <activity
-            android:name=".Activities.Activities"
-            tools:ignore="InnerclassSeparator" />
+
 
         <service
             android:name=".ServiceClass.StepService"
@@ -94,7 +94,7 @@
         </receiver>
 
         <activity android:name=".Community.User_posts" />
-        <activity android:name=".Lifestyle.Lifestyle"></activity>
+
     </application>
 
 </manifest>
