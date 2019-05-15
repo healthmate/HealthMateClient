@@ -19,7 +19,12 @@ import com.healthmate.client.JobService.StoreStepsJobScheduler;
 import com.healthmate.client.MainActivity;
 import com.healthmate.client.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.healthmate.client.Community.Community.MY_PREFS_NAME;
@@ -44,6 +49,7 @@ public class StepsReceiver extends BroadcastReceiver {
         PersistableBundle bundle = new PersistableBundle();
         bundle.putString("steps", Integer.toString(steps));
         bundle.putString("token", token);
+        bundle.putString("date", get_Date());
         ComponentName componentName = new ComponentName(context, StoreStepsJobScheduler.class);
         JobInfo info = new JobInfo.Builder(101,componentName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
@@ -71,5 +77,13 @@ public class StepsReceiver extends BroadcastReceiver {
             Log.e("Test", "finish" );
 
         }
+    }
+
+    private String get_Date(){
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        Date currentLocalTime = cal.getTime();
+        DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        date.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return date.format(currentLocalTime);
     }
 }

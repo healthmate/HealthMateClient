@@ -19,7 +19,11 @@ import com.healthmate.client.BroadcastReceiver.NotificationReceiver;
 import com.healthmate.client.Community.Community;
 import com.healthmate.client.Lifestyle.Lifestyle;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -103,6 +107,12 @@ public class MainActivity extends AppCompatActivity {
         pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);*/
 
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        Date currentLocalTime = cal.getTime();
+        DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        date.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String localTime = date.format(currentLocalTime);
+        Log.e("localTime", localTime );
 
     }
 

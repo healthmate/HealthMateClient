@@ -66,12 +66,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -117,7 +123,7 @@ public class Activities extends Fragment {
                     .load(profile_pic)
                     .into(profile);
 
-            new StoreSteps().execute(String.valueOf(numSteps), token);
+            new StoreSteps().execute(String.valueOf(numSteps), token, get_Date());
         }
         ///// Initializing Recycle View ...
 
@@ -177,6 +183,14 @@ public class Activities extends Fragment {
         ///new GetChallengeTask().execute(token);
     }
 
+    private String get_Date(){
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        Date currentLocalTime = cal.getTime();
+        DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        date.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return date.format(currentLocalTime);
+    }
+
     @SuppressLint("StaticFieldLeak")
     class StoreSteps extends AsyncTask<String, String, Integer> {
         @Override
@@ -188,6 +202,7 @@ public class Activities extends Fragment {
         protected Integer doInBackground(String... strings) {
             String steps = strings[0];
             String auth_token = strings[1];
+            String date = strings[2];
             try {
                 Log.e("IOexcep", "try");
                 URL url = new URL("https://healthmate-api-heroku.herokuapp.com/storesteps/"+steps);
@@ -198,6 +213,13 @@ public class Activities extends Fragment {
                 con.setConnectTimeout(3000);
                 con.setRequestProperty("Content-Type","application/json");
                 con.connect();
+
+                JSONObject jsonparam = new JSONObject();
+                jsonparam.put("date",date);
+
+                OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
+                out.write(jsonparam.toString());
+                out.close();
 
                 int resp=con.getResponseCode();
                 Log.e("IOexcep", "connnect");
@@ -218,15 +240,14 @@ public class Activities extends Fragment {
                 Log.e("IOexcep", "Malformed URL");
             } catch (IOException e) {
                 Log.e("IOexcep", "Not Connected");
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
             return  null;
         }
 
         @Override
         protected void onPostExecute(Integer s) {
-
-            //if(s == 200)
-
 
         }
     }

@@ -5,10 +5,14 @@ import android.app.job.JobService;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -43,6 +47,7 @@ public class StoreStepsJobScheduler extends JobService {
                 Log.e("storeSteps", "Store steps called");
                 String steps = params.getExtras().getString("steps");
                 String auth_token = params.getExtras().getString("token");
+                String date = params.getExtras().getString("date");
                 try {
                     Log.e("storeSteps", "try");
                     URL url = new URL("https://healthmate-api-heroku.herokuapp.com/storesteps/"+steps);
@@ -53,6 +58,13 @@ public class StoreStepsJobScheduler extends JobService {
                     con.setConnectTimeout(3000);
                     con.setRequestProperty("Content-Type","application/json");
                     con.connect();
+
+                    JSONObject jsonparam = new JSONObject();
+                    jsonparam.put("date",date);
+
+                    OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
+                    out.write(jsonparam.toString());
+                    out.close();
 
                     int resp=con.getResponseCode();
                     Log.e("storeSteps", "connnect");
@@ -71,6 +83,8 @@ public class StoreStepsJobScheduler extends JobService {
                     Log.e("storeSteps", "Malformed URL");
                 } catch (IOException e) {
                     Log.e("storeSteps", "Not Connected");
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
                 jobFinished(params, false);

@@ -108,14 +108,27 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="paddingPercent" value="35" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
                                     </map>
                                   </option>
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/user.png" />
-                                      <entry key="outputName" value="test_profile" />
+                                      <entry key="backgroundColor" value="0da46a" />
+                                      <entry key="cropped" value="true" />
+                                      <entry key="iconShape" value="CIRCLE" />
+                                      <entry key="imageAsset" value="$PROJECT_DIR$/../../dinner.png" />
+                                      <entry key="outputName" value="ic_dinner_filled" />
                                     </map>
                                   </option>
                                 </PersistentState>
