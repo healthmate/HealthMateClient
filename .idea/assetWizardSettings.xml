@@ -91,7 +91,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="color" value="3bff8d" />
+                                                <entry key="color" value="eb6255" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -102,7 +102,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_person_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_remove_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -124,11 +124,10 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="backgroundColor" value="0da46a" />
                                       <entry key="cropped" value="true" />
-                                      <entry key="iconShape" value="CIRCLE" />
-                                      <entry key="imageAsset" value="$PROJECT_DIR$/../../dinner.png" />
-                                      <entry key="outputName" value="ic_dinner_filled" />
+                                      <entry key="iconShape" value="NONE" />
+                                      <entry key="imageAsset" value="$PROJECT_DIR$/../../undraw_time_management_30iu.png" />
+                                      <entry key="outputName" value="ic_time_management" />
                                     </map>
                                   </option>
                                 </PersistentState>

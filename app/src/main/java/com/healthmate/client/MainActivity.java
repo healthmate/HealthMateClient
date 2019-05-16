@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedFragment = new Lifestyle();
+            Fragment selectedFragment = null;
 
             switch (item.getItemId()) {
                 case R.id.navigation_lifestyle:
@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        Fragment defaults = new Lifestyle();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaults).commit();
         Log.e("ALARM set", "SET!!!" );
         Intent notifyIntent = new Intent(this, NotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,

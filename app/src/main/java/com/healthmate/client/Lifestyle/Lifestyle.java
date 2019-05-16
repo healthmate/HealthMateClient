@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ public class Lifestyle extends Fragment {
 
     private TextView TvSteps,TvUsername;
     String token,username,profile_pic;
+    ImageView btn_breakfast, btn_lunch, btn_dinner;
 
 
     @Nullable
@@ -53,12 +55,15 @@ public class Lifestyle extends Fragment {
 
         }
         return  view;
+
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        load_views();
         TvUsername = (TextView) Objects.requireNonNull(getView().findViewById(R.id.profile_username));
         TvUsername.setText(username);
 
@@ -69,6 +74,36 @@ public class Lifestyle extends Fragment {
                 startActivity(new Intent(getActivity(), Profile.class));
             }
         });
+
+        btn_breakfast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), Meal.class)
+                        .putExtra("indicator","Breakfast"));
+            }
+        });
+
+        btn_lunch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), Meal.class)
+                        .putExtra("indicator","Lunch"));
+            }
+        });
+
+        btn_dinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), Meal.class)
+                        .putExtra("indicator","Dinner"));
+            }
+        });
+    }
+
+    public void load_views(){
+        btn_breakfast = Objects.requireNonNull(getActivity()).findViewById(R.id.btn_breakfast);
+        btn_lunch = getActivity().findViewById(R.id.btn_lunch);
+        btn_dinner = getActivity().findViewById(R.id.btn_dinner);
     }
 
 }
