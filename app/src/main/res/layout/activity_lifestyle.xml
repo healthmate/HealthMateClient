@@ -221,7 +221,7 @@
                     android:textSize="20sp"
                     android:padding="2dp"
                     android:textAlignment="textEnd"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/red"/>
             </LinearLayout>
 
         </LinearLayout>

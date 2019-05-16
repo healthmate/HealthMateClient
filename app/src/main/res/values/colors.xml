@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#205004</color>
+    <color name="colorPrimary">#224B26</color>
     <color name="colorPrimaryDark">#403d3d</color>
     <color name="colorAccent">#c2bdbf</color>
     <color name="colorBlack">#000000</color>
@@ -10,5 +10,6 @@
     <color name="colorWindow">?android:attr/windowBackground</color>
     <color name="black">#403d3d</color>
     <color name="auth_color">#073319</color>
+    <color name="red">#E51212</color>
 
 </resources>

@@ -18,4 +18,9 @@
     <string name="lifestyle">Lifestyle</string>
     <string name="activity">Activities</string>
     <string name="community">Community</string>
+    
+    <string-array name="names">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
 </resources>
