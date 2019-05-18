@@ -72,11 +72,26 @@
         android:layout_height="match_parent"
         android:layout_below="@id/bar"
         android:id="@+id/swipe_container">
-        <android.support.v7.widget.RecyclerView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recyclerview"
-            android:layout_below="@+id/bar"/>
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/post_online"
+                android:background="#fff">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/undraw_post_online"/>
+            </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerview"
+                />
+        </RelativeLayout>
+
     </android.support.v4.widget.SwipeRefreshLayout>
     
 

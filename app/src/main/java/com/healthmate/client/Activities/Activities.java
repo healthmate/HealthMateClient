@@ -22,7 +22,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -82,19 +84,20 @@ import java.util.TimeZone;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.view.View.GONE;
 import static com.healthmate.client.Community.Community.MY_PREFS_NAME;
 
 public class Activities extends Fragment {
 
     private TextView TvSteps,TvUsername;
     String token,username,profile_pic;
-    Sensor motion;
-    Sensor stepDect;
+    LinearLayout no_data_layout;
     BarChart mChart;
     InputStream is = null;
     String line = null;
     String result = null;
     int numSteps;
+    RelativeLayout metrics;
 
     ///recycle view variables
     private RecyclerView recyclerView;
@@ -158,6 +161,8 @@ public class Activities extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // get steps
         mChart = Objects.requireNonNull(getView()).findViewById(R.id.barchart);
+        mChart.setVisibility(GONE);
+        metrics = view.findViewById(R.id.metrics);
 
         new GetStepsTask().execute(token);
         TvSteps = Objects.requireNonNull(getView()).findViewById(R.id.tv_steps);
@@ -166,6 +171,8 @@ public class Activities extends Fragment {
 
         TvUsername = (TextView) Objects.requireNonNull(getView().findViewById(R.id.profile_username));
         TvUsername.setText(username);
+
+        no_data_layout = view.findViewById(R.id.no_data_layout);
 
         CircleImageView profile = view.findViewById(R.id.profile);
         profile.setOnClickListener(new View.OnClickListener() {
@@ -308,16 +315,20 @@ public class Activities extends Fragment {
         }
         private String title;
         private String image_url;
-        private  String goal;
+        private String goal;
         private String end_date;
         private String challenge_id;
         private String steps;
         @Override
         protected void onPostExecute(JSONArray s) {
             challengeObjectList.clear();
-
             if(s!=null) {
+
                 try {
+
+                    if(s.getJSONObject(0)!=null){
+                        no_data_layout.setVisibility(GONE);
+                    }
                     for (int i = 0; i < s.length(); i++) {
                         JSONObject jo = s.getJSONObject(i);
                         title = jo.getString("challenge_name");
@@ -330,7 +341,7 @@ public class Activities extends Fragment {
                         String creator = jo.getString("creator");
                         JSONArray challenge_user_array = jo.getJSONArray("users");
                         ArrayList<Challenge_user> challenge_users_list = new ArrayList<>();
-
+                        Log.e("IMAGE_URL "+10, "dontcare");
                         for(int j = 0; j<challenge_user_array.length(); j++){
                             JSONObject challenge_user_object = challenge_user_array.getJSONObject(j);
                             String username = challenge_user_object.getString("username");
@@ -341,7 +352,7 @@ public class Activities extends Fragment {
                         }
 
                         //post_id = jo.getString("post_id");
-                        //Log.e("IMAGE_URL "+i, image_url);
+
                         challengeObject = new ChallengeObject(title, image_url, goal, end_date,
                                 challenge_id,steps, challenge_users_list, description, creator);
                         challengeObjectList.add(challengeObject);
@@ -415,20 +426,23 @@ public class Activities extends Fragment {
 
         @Override
         protected void onPostExecute(JSONArray s) {
-            mChart.setDrawBarShadow(false);
-            mChart.setDrawValueAboveBar(true);
-            mChart.setMaxVisibleValueCount(50);
-            mChart.setPinchZoom(false);
-            mChart.setDrawGridBackground(false);
-            mChart.setScaleEnabled(false);
-            mChart.setDoubleTapToZoomEnabled(false);
-
-            //mChart.zoom(2f,2f,0,0);
-
-            ArrayList<BarEntry> barEntries = new ArrayList<>();
-            final ArrayList<String> days = new ArrayList<>();
 
             if(s!=null) {
+                metrics.setVisibility(View.GONE);
+                mChart.setVisibility(View.VISIBLE);
+
+                mChart.setDrawBarShadow(false);
+                mChart.setDrawValueAboveBar(true);
+                mChart.setMaxVisibleValueCount(50);
+                mChart.setPinchZoom(false);
+                mChart.setDrawGridBackground(false);
+                mChart.setScaleEnabled(false);
+                mChart.setDoubleTapToZoomEnabled(false);
+
+                //mChart.zoom(2f,2f,0,0);
+
+                ArrayList<BarEntry> barEntries = new ArrayList<>();
+                final ArrayList<String> days = new ArrayList<>();
                 try {
                     for (int i = 0; i < s.length(); i++) {
                         JSONObject jo = s.getJSONObject(i);

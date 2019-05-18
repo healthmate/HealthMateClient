@@ -110,6 +110,16 @@
                 app:cardCornerRadius="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/metrics">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/undraw_metrics"/>
+                </RelativeLayout>
                 <com.github.mikephil.charting.charts.BarChart
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -151,12 +161,43 @@
                         android:layout_height="1dp"
                         android:background="#000"/>
 
-                    <android.support.v7.widget.RecyclerView
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:id="@+id/challenge_list"
-                        android:layout_marginTop="5dp"
-                        />
+                        android:layout_height="match_parent">
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_marginTop="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:id="@+id/challenge_list"
+
+                            />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical"
+                            android:id="@+id/no_data_layout">
+
+                            <ImageView
+                                android:layout_width="150dp"
+                                android:layout_height="150dp"
+                                android:src="@mipmap/no_data"
+                                android:contentDescription="wrong time"
+                                android:id="@+id/image_view"
+                                />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="No Data"
+                                android:textColor="#000"
+                                android:textSize="20sp"
+                                android:textAlignment="center"
+                                />
+                        </LinearLayout>
+
+                    </RelativeLayout>
                 </LinearLayout>
 
 

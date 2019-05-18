@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -46,6 +47,7 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.view.View.GONE;
 
 public class Community extends Fragment {
 
@@ -64,6 +66,7 @@ public class Community extends Fragment {
     String result = null;
     String token;
     SwipeRefreshLayout mSwipeRefreshLayout;
+    RelativeLayout post_online;
 
 
     public static final String MY_PREFS_NAME = "MyPrefsFile";
@@ -127,6 +130,7 @@ public class Community extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Toolbar toolbar = (Toolbar) Objects.requireNonNull(getView()).findViewById(R.id.toolbar);
 
+        post_online = view.findViewById(R.id.post_online);
         ImageView btn_post = Objects.requireNonNull(getView()).findViewById(R.id.post);
         TextView search = Objects.requireNonNull(getView()).findViewById(R.id.search_btn);
         ImageView profile = Objects.requireNonNull(getView()).findViewById(R.id.profile);
@@ -175,7 +179,6 @@ public class Community extends Fragment {
         protected void onPreExecute() {
 
         }
-
 
         @Override
         protected JSONArray doInBackground(String... strings) {
@@ -229,6 +232,7 @@ public class Community extends Fragment {
             mSwipeRefreshLayout.setRefreshing(false);
             postObjectList.clear();
             if(s!=null) {
+                post_online.setVisibility(GONE);
                 try {
                     for (int i = 0; i < s.length(); i++) {
                         JSONObject jo = s.getJSONObject(i);

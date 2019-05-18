@@ -26,11 +26,12 @@
                     android:background="?android:attr/windowBackground"
                     android:layout_marginLeft="15dp"
                     android:id="@+id/search_bar"
-                    android:hint="  Search"
+                    android:hint=" Search"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="5dp"
                     android:lines="1"
                     android:layout_weight="1.7"
+                    android:inputType="text"
 
                     />
                 <ImageView
@@ -44,10 +45,33 @@
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/bar"
-        android:id="@+id/recycler_view_2"/>
+        android:id="@+id/swipe_container">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/search_profile"
+                android:background="#fff">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/undraw_people_search"/>
+            </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recycler_view_2"
+                />
+        </RelativeLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
 
 </RelativeLayout>

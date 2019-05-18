@@ -12,10 +12,14 @@
     <string name="challenge">To Create a Challenge:\n
                             add the following hashtags to the description\n
                             1.challenge title - hashtag must include challenge e.g. #titlechallenge.\n
-                            2.end date - hashtag should start with a 'd' and follow this format\n
-                              e.g. #d2019-04-28.\n
+                            2.end date - hashtag should start with a 'd' and follow this format\n e.g. #d2019-04-28.\n
                             3.goal - hashtag should start with a 'g' e.g. #g10000</string>
     <string name="lifestyle">Lifestyle</string>
     <string name="activity">Activities</string>
     <string name="community">Community</string>
+    
+    <string-array name="names">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
 </resources>

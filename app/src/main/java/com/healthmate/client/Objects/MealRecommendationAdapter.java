@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,17 +23,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MealRecommendationAdapter extends RecyclerView.Adapter<MealRecommendationAdapter.ViewHolder>{
     public Context mContext;
     public List<MealRecommendationItem> mMeal;
+    private EditText selected_meal;
 
-    public MealRecommendationAdapter(Context mContext, List<MealRecommendationItem> mMeal) {
+    public MealRecommendationAdapter(Context mContext, List<MealRecommendationItem> mMeal, EditText selected_meal) {
         this.mContext = mContext;
         this.mMeal = mMeal;
+        this.selected_meal = selected_meal;
     }
 
     @NonNull
     @Override
     public MealRecommendationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.meal_rec_item, viewGroup, false);
-
         return new MealRecommendationAdapter.ViewHolder(view);
     }
 
@@ -40,14 +42,15 @@ public class MealRecommendationAdapter extends RecyclerView.Adapter<MealRecommen
     @Override
     public void onBindViewHolder(@NonNull final MealRecommendationAdapter.ViewHolder viewHolder, int i) {
 
-        MealRecommendationItem meal = mMeal.get(i);
+        final MealRecommendationItem meal = mMeal.get(i);
         viewHolder.food_name.setText(meal.getFood_name());
         viewHolder.calories.setText(meal.getCalorie());
 
         viewHolder.bConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,"worked!!!", Toast.LENGTH_SHORT).show();
+                selected_meal.setText(meal.getFood_name());
+
             }
         });
     }

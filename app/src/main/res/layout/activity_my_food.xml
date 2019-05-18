@@ -26,6 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight=".7"
+                android:id="@+id/spinner_1"
                 />
 
             <LinearLayout
@@ -38,7 +39,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_minus"
-                    android:layout_weight=".3"/>
+                    android:layout_weight=".3"
+                    android:id="@+id/remove_1"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="40dp"
@@ -46,12 +48,15 @@
                     android:layout_weight=".4"
                     android:gravity="bottom"
                     android:textSize="22sp"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:id="@+id/mealtv_1"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_add"
-                    android:layout_weight=".3"/>
+                    android:layout_weight=".3"
+                    android:id="@+id/add_1"
+                    />
             </LinearLayout>
 
 
@@ -77,7 +82,8 @@
                 android:id="@+id/calories_1"
                 android:textSize="15sp"
                 android:inputType="none"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary"
+                android:enabled="false"/>
             <TextView
                 android:id="@+id/cal_1"
                 android:layout_width="wrap_content"
@@ -120,6 +126,7 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight=".7"
+                android:id="@+id/spinner_2"
                 />
 
             <LinearLayout
@@ -132,7 +139,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_minus"
-                    android:layout_weight=".3"/>
+                    android:layout_weight=".3"
+                    android:id="@+id/remove_2"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="40dp"
@@ -140,12 +148,14 @@
                     android:layout_weight=".4"
                     android:gravity="bottom"
                     android:textSize="22sp"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:id="@+id/mealtv_2"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_add"
-                    android:layout_weight=".3"/>
+                    android:layout_weight=".3"
+                    android:id="@+id/add_2"/>
             </LinearLayout>
 
 
@@ -171,7 +181,8 @@
                 android:id="@+id/calories_2"
                 android:textSize="15sp"
                 android:inputType="none"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary"
+                android:enabled="false"/>
             <TextView
                 android:id="@+id/cal_2"
                 android:layout_width="wrap_content"
@@ -214,6 +225,7 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight=".7"
+                android:id="@+id/spinner_3"
                 />
 
             <LinearLayout
@@ -226,7 +238,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_minus"
-                    android:layout_weight=".3"/>
+                    android:layout_weight=".3"
+                    android:id="@+id/remove_3"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="40dp"
@@ -234,14 +247,15 @@
                     android:layout_weight=".4"
                     android:gravity="bottom"
                     android:textSize="22sp"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:id="@+id/mealtv_3"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_add"
-                    android:layout_weight=".3"/>
+                    android:layout_weight=".3"
+                    android:id="@+id/add_3"/>
             </LinearLayout>
-
 
         </LinearLayout>
 
@@ -265,7 +279,8 @@
                 android:id="@+id/calories_3"
                 android:textSize="15sp"
                 android:inputType="none"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary"
+                android:enabled="false"/>
             <TextView
                 android:id="@+id/cal_3"
                 android:layout_width="wrap_content"
@@ -296,6 +311,37 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Calorie Limit"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1300"
+            android:id="@+id/calorie_limit"
+            android:layout_toStartOf="@+id/cal_5"
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cal"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:id="@+id/cal_5"
+            android:textSize="20sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Total Calories"
             android:textSize="20sp"
             />
@@ -304,6 +350,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1300"
+            android:id="@+id/total_calories"
             android:layout_toStartOf="@+id/cal_4"
             android:textSize="20sp"
             android:textColor="@color/colorPrimary"/>
@@ -336,7 +383,8 @@
             android:text="Add meal"
             android:background="@drawable/rec_gradient"
             android:textColor="#fff"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:id="@+id/btn_add_meal"/>
     </RelativeLayout>
 
 </LinearLayout>

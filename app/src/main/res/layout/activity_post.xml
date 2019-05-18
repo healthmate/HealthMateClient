@@ -63,13 +63,15 @@
             />
 
         <TextView
+            android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_marginTop="20dp"
             android:text="@string/challenge"
-            android:background="@drawable/textview_description"
+            android:background="#d7dae2"
             android:typeface="serif"
             android:textStyle="italic"
+
             />
     </LinearLayout>
 

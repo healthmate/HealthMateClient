@@ -13,7 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.healthmate.client.Community.Community;
@@ -49,6 +53,9 @@ public class Meal_Recommendation extends Fragment {
     public MealRecommendationItem meal_recommendation;
     private MealRecommendationAdapter mealRecommendationAdapter;
     public List<MealRecommendationItem> meal_recommendationList;
+    private  RelativeLayout relativeLayout;
+    private TextView save,show;
+    private EditText meal_item;
     InputStream is = null;
     String line = null;
     String result = null;
@@ -72,7 +79,12 @@ public class Meal_Recommendation extends Fragment {
             Log.e("TOKEN", token);
         }
 
-        //new GetRecommendationTask().execute(token);
+        Bundle intent = getActivity().getIntent().getExtras();
+        if(intent != null){
+            indicator = intent.getString("indicator");
+        }
+
+        new GetRecommendationTask().execute(token);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -81,8 +93,8 @@ public class Meal_Recommendation extends Fragment {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-
-        mealRecommendationAdapter = new MealRecommendationAdapter(getContext(),meal_recommendationList);
+        meal_item = view.findViewById(R.id.selected_meal);
+        mealRecommendationAdapter = new MealRecommendationAdapter(getContext(),meal_recommendationList, meal_item);
         recyclerView.setAdapter(mealRecommendationAdapter);
 
         return view;
@@ -91,15 +103,27 @@ public class Meal_Recommendation extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RelativeLayout realview = getActivity().findViewById(R.id.passed_time);
-        realview.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.GONE);
+        relativeLayout = getActivity().findViewById(R.id.passed_time);
+        show = view.findViewById(R.id.id_meal_type);
+        save = view.findViewById(R.id.save);
+
+        show.setText(indicator);
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!meal_item.getText().toString().equals(" ")){
+                    Toast.makeText(getContext(),"worked!!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //new GetRecommendationTask().execute(token);
+        new GetRecommendationTask().execute(token);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -162,6 +186,7 @@ public class Meal_Recommendation extends Fragment {
 
             meal_recommendationList.clear();
             if(s!=null) {
+                relativeLayout.setVisibility(View.GONE);
                 try {
                     for (int i = 0; i < s.length(); i++) {
                         JSONObject jo = s.getJSONObject(i);

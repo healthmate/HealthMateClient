@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         Calendar calendar2 = Calendar.getInstance();
         calendar2.set(Calendar.HOUR_OF_DAY,23);
         calendar2.set(Calendar.MINUTE,59);
-        calendar2.set(Calendar.SECOND,0);
+        calendar2.set(Calendar.SECOND,59);
         calendar2.set(Calendar.MILLISECOND,0);
 
         alarmManager2.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(),
@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);

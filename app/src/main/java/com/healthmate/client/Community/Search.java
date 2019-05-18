@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.healthmate.client.Objects.PostAdapter;
@@ -41,6 +43,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.GONE;
 import static com.healthmate.client.Community.Community.MY_PREFS_NAME;
 
 public class Search extends AppCompatActivity {
@@ -58,7 +61,8 @@ public class Search extends AppCompatActivity {
     boolean isFollowing;
     ImageView searchbtn;
 
-
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    RelativeLayout search_profile;
     EditText search_bar;
 
     @Override
@@ -101,13 +105,21 @@ public class Search extends AppCompatActivity {
         search_bar = findViewById(R.id.search_bar);
         searchbtn = findViewById(R.id.search_btn_btn);
 
+        search_profile = findViewById(R.id.search_profile);
+
         searchbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mSwipeRefreshLayout.setRefreshing(true);
                 new SearchTask().execute(search_bar.getText().toString(),token);
 
             }
         });
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorGreen,
+                R.color.colorAccent);
 
         /*search_bar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -193,7 +205,9 @@ public class Search extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONObject s) {
             userList.clear();
+            mSwipeRefreshLayout.setRefreshing(false);
             if(s!=null) {
+                search_profile.setVisibility(GONE);
                 try {
                         isFollowing = Boolean.parseBoolean(s.getString("community"));
                         Log.e("isF", s.getString("community"));
@@ -210,6 +224,8 @@ public class Search extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+            }else{
+                search_profile.setVisibility(View.VISIBLE);
             }
 
         }
