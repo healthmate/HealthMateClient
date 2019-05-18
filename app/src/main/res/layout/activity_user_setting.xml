@@ -8,57 +8,102 @@
     tools:context=".UserSettingActivity">
 
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="206dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/hm_launcher_foreground" />
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="20dp"
             android:text="Weight"
-            android:textSize="20dp"
-            android:paddingTop="5dp"/>
+            android:textSize="20dp" />
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="75kg"
+            android:inputType="number"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
             android:text="Height"
             android:textSize="20dp"
-            android:paddingTop="5dp"/>
+            />
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="E.g 175m"
+            android:inputType="number"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
             android:text="Are you Diabetic"
-            android:textSize="20dp"
-            android:paddingTop="5dp"
-            />
+            android:textSize="20dp" />
 
         <Spinner
             android:id="@+id/spinner2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
-        <Button
-            android:textColor="#fff"
-            android:background="@drawable/buttonstyle"
-            android:layout_marginTop="35dp"
-            android:layout_gravity="center_horizontal"
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Goal Weight"
+            android:textSize="20dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="E.g 85kg"
+            android:inputType="number"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Activity level"
+            android:textSize="20dp" />
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/connect_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/buttonstyle"
             android:text="Update "
-            android:id="@+id/connect_button"/>
+            android:textColor="#fff" />
 
     </LinearLayout>
 

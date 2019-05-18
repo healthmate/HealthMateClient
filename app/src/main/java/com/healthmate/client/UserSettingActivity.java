@@ -14,8 +14,15 @@ public class UserSettingActivity extends AppCompatActivity {
 
         Spinner mySpinner = (Spinner) findViewById(R.id.spinner2);
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(UserSettingActivity.this,
-               android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.names));
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.names));
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinner.setAdapter(myAdapter);
+
+
+        Spinner newSpinner = (Spinner) findViewById(R.id.spinner1);
+        ArrayAdapter<String> newAdapter = new ArrayAdapter<String>(UserSettingActivity.this,
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.activitylevel));
+        newAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        newSpinner.setAdapter(newAdapter);
     }
 }
