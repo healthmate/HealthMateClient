@@ -55,8 +55,8 @@ public class HealthTipsAdapter extends RecyclerView.Adapter<HealthTipsAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
 
-            topic = itemView.findViewById(R.id.food_name);
-            details = itemView.findViewById(R.id.food_calories);
+            topic = itemView.findViewById(R.id.topic);
+            details = itemView.findViewById(R.id.details);
         }
     }
 

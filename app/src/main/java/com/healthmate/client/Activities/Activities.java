@@ -1,13 +1,8 @@
 package com.healthmate.client.Activities;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Canvas;
-import android.graphics.LinearGradient;
-import android.graphics.RectF;
-import android.hardware.Sensor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -21,38 +16,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.github.mikephil.charting.buffer.BarBuffer;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.model.GradientColor;
-import com.github.mikephil.charting.renderer.BarChartRenderer;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.Transformer;
-import com.github.mikephil.charting.utils.Utils;
-import com.healthmate.client.Auth.LogIn;
 import com.healthmate.client.Community.Profile;
-import com.healthmate.client.JobService.StepsJobService;
 import com.healthmate.client.Objects.ChallengeAdapter;
 import com.healthmate.client.Objects.ChallengeObject;
 import com.healthmate.client.Objects.Challenge_user;
@@ -86,11 +63,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.content.Context.MODE_PRIVATE;
 import static android.view.View.GONE;
 import static com.healthmate.client.Community.Community.MY_PREFS_NAME;
+import static java.lang.Math.round;
 
 public class Activities extends Fragment {
 
-    private TextView TvSteps,TvUsername;
-    String token,username,profile_pic;
+    private TextView TvSteps,TvUsername, TvCaloriesBurnt, TvTargetSteps;
+    String token,username,profile_pic,weight;
     LinearLayout no_data_layout;
     BarChart mChart;
     InputStream is = null;
@@ -116,8 +94,9 @@ public class Activities extends Fragment {
         if(restoredText != null){
 
             numSteps = prefs.getInt("steps", -1);
-
+            weight = prefs.getString("weight","0");
             Log.e("steps", Integer.toString(numSteps) );
+            Log.e("weight", weight );
             token = prefs.getString("token",null);
             username = prefs.getString("profile_username",null);
             profile_pic = prefs.getString("profile_pic", null);
@@ -148,9 +127,6 @@ public class Activities extends Fragment {
         challengeAdapter = new ChallengeAdapter(getContext(),challengeObjectList, pop_up);
         recyclerView.setAdapter(challengeAdapter);
 
-        Intent ServiceIntent = new Intent(getContext(), StepsJobService.class);
-        getActivity().startForegroundService(ServiceIntent);
-
         return view;
     }
 
@@ -170,6 +146,8 @@ public class Activities extends Fragment {
         TvSteps.setText(Integer.toString(numSteps));
 
         TvUsername = (TextView) Objects.requireNonNull(getView().findViewById(R.id.profile_username));
+        TvCaloriesBurnt = view.findViewById(R.id.calories_burnt);
+        CalculateCaloriesBurnt();
         TvUsername.setText(username);
 
         no_data_layout = view.findViewById(R.id.no_data_layout);
@@ -193,9 +171,16 @@ public class Activities extends Fragment {
     private String get_Date(){
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         Date currentLocalTime = cal.getTime();
-        DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        @SuppressLint("SimpleDateFormat") DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         date.setTimeZone(TimeZone.getTimeZone("GMT"));
         return date.format(currentLocalTime);
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void CalculateCaloriesBurnt(){
+        Double Cal_Per_Step = (0.57 * Integer.parseInt(weight))/2000;
+        Log.e("cal_per_step", Double.toString(Cal_Per_Step) );
+        TvCaloriesBurnt.setText(Integer.toString((int)(Cal_Per_Step * numSteps)));
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -448,7 +433,6 @@ public class Activities extends Fragment {
                         JSONObject jo = s.getJSONObject(i);
                         String date = jo.getString("date");
                         String steps = jo.getString("steps");
-
                         barEntries.add(new BarEntry(i, Float.parseFloat(steps)));
                         String[] parts = date.split(",", 2);
                         days.add(parts[0]);
@@ -495,7 +479,7 @@ public class Activities extends Fragment {
                 axis.setValueFormatter(new IndexAxisValueFormatter(){
                     @Override
                     public String getFormattedValue(float value) {
-                        int index = Math.round(value);
+                        int index = round(value);
                         if(index >= days.size()){
                             index = days.size()-1;
                         }

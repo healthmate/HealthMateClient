@@ -44,8 +44,9 @@ public class OtherProfile extends AppCompatActivity {
     InputStream is = null;
     String line = null;
     String result = null;
-    TextView posts_tv,username_tv,community_tv,fullname_tv, steps_tv;
+    TextView posts_tv,username_tv,community_tv,fullname_tv, steps_tv, gender_tv, goal_tv, activity_level_tv;
     String community,user_id,username,posts,steps,token,current_userid, message,status,fullname;
+    String gender, goal, activity_level;
     Boolean isFollowing;
     Button connect_btn;
     String profile_pic;
@@ -62,6 +63,9 @@ public class OtherProfile extends AppCompatActivity {
         fullname_tv = findViewById(R.id.full_name);
         connect_btn = findViewById(R.id.connect_button);
         steps_tv = findViewById(R.id.steps);
+        gender_tv = findViewById(R.id.id_gender);
+        goal_tv = findViewById(R.id.id_goal);
+        activity_level_tv = findViewById(R.id.id_activity_level);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -199,7 +203,17 @@ public class OtherProfile extends AppCompatActivity {
                     posts = s.getString("posts");
                     fullname = s.getString("full_name");
                     steps = s.getString("steps_today");
+                    gender = s.getString("gender");
+                    goal = s.getString("goal");
+                    activity_level = s.getString("activity_level");
 
+                    if (gender.equals("M")) {
+                        gender_tv.setText("Male");
+                    } else {
+                        gender_tv.setText("Female");
+                    }
+                    goal_tv.setText(goal);
+                    activity_level_tv.setText(activity_level);
                     fullname_tv.setText(fullname);
                     community_tv.setText(community);
                     username_tv.setText(username);

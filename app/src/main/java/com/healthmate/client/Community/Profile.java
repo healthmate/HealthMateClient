@@ -11,9 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.healthmate.client.Auth.UserSettingActivity;
 import com.healthmate.client.Objects.PostAdapter;
 import com.healthmate.client.Objects.PostObject;
 import com.healthmate.client.Objects.UserProfile;
@@ -43,9 +45,10 @@ public class Profile extends AppCompatActivity {
     InputStream is = null;
     String line = null;
     String result = null;
-    String community,user_id,username,posts,steps,profile_pic;
-    TextView posts_tv,username_tv,community_tv,fullname_tv, steps_tv;
+    String community,user_id,username,posts,steps,profile_pic,gender, goal, activity_level;
+    TextView posts_tv,username_tv,community_tv,fullname_tv, steps_tv, gender_tv, goal_tv, activity_level_tv;
     String token, fullname;
+    Button edit_profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,10 @@ public class Profile extends AppCompatActivity {
         community_tv = findViewById(R.id.following);
         fullname_tv = findViewById(R.id.full_name);
         steps_tv = findViewById(R.id.steps);
+        gender_tv = findViewById(R.id.id_gender);
+        goal_tv = findViewById(R.id.id_goal);
+        activity_level_tv = findViewById(R.id.id_activity_level);
+        edit_profile = findViewById(R.id.edit_profile);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,6 +99,14 @@ public class Profile extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), User_posts.class);
                 intent.putExtra("purpose", "current_user");
                 intent.putExtra("username", username);
+                startActivity(intent);
+            }
+        });
+
+        edit_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), UserSettingActivity.class);
                 startActivity(intent);
             }
         });
@@ -152,6 +167,7 @@ public class Profile extends AppCompatActivity {
             return null;
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         protected void onPostExecute(JSONObject s) {
 
@@ -163,12 +179,22 @@ public class Profile extends AppCompatActivity {
                         username = s.getString("username");
                         posts = s.getString("posts");
                         steps = s.getString("steps_today");
+                        gender = s.getString("gender");
+                        goal = s.getString("goal");
+                        activity_level = s.getString("activity_level");
                         //userProfile = new UserProfile(username,user_id,community,posts);
                         fullname_tv.setText(fullname);
                         community_tv.setText(community);
                         username_tv.setText(username);
                         posts_tv.setText(posts);
                         steps_tv.setText(steps);
+                        if (gender.equals("M")) {
+                            gender_tv.setText("Male");
+                        } else {
+                            gender_tv.setText("Female");
+                        }
+                        goal_tv.setText(goal);
+                        activity_level_tv.setText(activity_level);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

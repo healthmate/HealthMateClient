@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:text="SAVE"
             android:layout_gravity="center"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="#313f9c"
             android:layout_weight=".15"
             android:layout_marginStart="20dp"
@@ -75,15 +75,16 @@
                 />
         </RelativeLayout>
 
-        <RelativeLayout
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/swipe_container">
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/recycler_view"
                 />
-        </RelativeLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
     </RelativeLayout>
 

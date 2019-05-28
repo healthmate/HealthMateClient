@@ -108,26 +108,16 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
-                                      <entry key="image">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="paddingPercent" value="35" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
                                     </map>
                                   </option>
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
+                                      <entry key="backgroundColor" value="26a259" />
                                       <entry key="cropped" value="true" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="$PROJECT_DIR$/../../undraw_time_management_30iu.png" />
-                                      <entry key="outputName" value="ic_time_management" />
+                                      <entry key="imageAsset" value="$PROJECT_DIR$/../../toilets.png" />
+                                      <entry key="outputName" value="ic_gender" />
                                     </map>
                                   </option>
                                 </PersistentState>

@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/hm_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".UserSettingActivity"/>
+        <activity android:name=".Auth.UserSettingActivity" />
         <activity
             android:name=".Auth.LogIn"
             android:theme="@style/Register"
@@ -34,7 +34,6 @@
             android:name=".Auth.Register"
             android:theme="@style/Register"
             tools:ignore="InnerclassSeparator" />
-
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" />
@@ -69,12 +68,28 @@
         <service
             android:name=".JobService.StoreStepsJobScheduler"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name=".JobService.StoreHistoryJobScheduler"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver
-            android:name=".BroadcastReceiver.NotificationReceiver"
+            android:name=".BroadcastReceiver.BreakfastReceiver"
             android:enabled="true"
             android:exported="false"
             tools:ignore="InnerclassSeparator" />
+
+        <receiver
+            android:name=".BroadcastReceiver.LunchReceiver"
+            android:enabled="true"
+            android:exported="false"
+            tools:ignore="InnerclassSeparator" />
+
+        <receiver
+            android:name=".BroadcastReceiver.DinnerReceiver"
+            android:enabled="true"
+            android:exported="false"
+            tools:ignore="InnerclassSeparator" />
+
         <receiver
             android:name=".BroadcastReceiver.StepsReceiver"
             android:enabled="true"
@@ -91,6 +106,7 @@
 
         <activity android:name=".Community.User_posts" />
         <activity android:name=".Lifestyle.Meal" />
+        <activity android:name=".DailyReport"></activity>
     </application>
 
 </manifest>

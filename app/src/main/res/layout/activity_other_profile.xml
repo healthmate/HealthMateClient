@@ -160,7 +160,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:layout_marginTop="45dp">
+        android:layout_marginTop="45dp"
+        >
         <LinearLayout
             android:orientation="horizontal"
             android:paddingLeft="25dp"
@@ -169,14 +170,15 @@
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_email_black_24dp"/>
+                android:src="@mipmap/ic_gender"/>
             <TextView
+                android:id="@+id/id_gender"
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="Wiliam@gmail.com"/>
+                android:text="gender"/>
         </LinearLayout>
         <LinearLayout
             android:layout_marginTop="25dp"
@@ -187,15 +189,34 @@
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_phone_android_black_24dp"/>
+                android:src="@mipmap/ic_goal"/>
             <TextView
                 android:textStyle="bold"
-
+                android:id="@+id/id_goal"
                 android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="+266 225 225"/>
+                android:text="goal"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="25dp"
+            android:orientation="horizontal"
+            android:paddingLeft="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@mipmap/ic_activity_level"/>
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/id_activity_level"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:text="activity level"/>
         </LinearLayout>
     </LinearLayout>
 

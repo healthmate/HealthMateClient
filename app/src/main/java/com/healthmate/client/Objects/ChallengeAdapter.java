@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,7 +39,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
     private View mPop_up;
     private ChallengeDetailsAdapter challengedetailsAdapter;
     private List<Challenge_user> challenge_user_list;
-    FloatingActionButton fb;
+    Button fb;
     public ChallengeAdapter(Context mContext, List<ChallengeObject> mChallenge, View pop_up) {
         this.mContext = mContext;
         this.mChallenge = mChallenge;
@@ -102,7 +103,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
                 Glide.with(mContext)
                         .load(challengeObject.getImage_url())
                         .into(challenge_image_details_tv);
-                challenge_title_tv.setText(challengeObject.getTitle());
+                challenge_title_tv.setText("~"+challengeObject.getTitle()+"~");
                 challenge_creator_tv.setText("created by:" + challengeObject.getCreator());
                 challenge_description_tv.setText(challengeObject.getDescription());
 

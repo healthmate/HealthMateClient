@@ -2,12 +2,14 @@ package com.healthmate.client.Lifestyle;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.healthmate.client.MainActivity;
 import com.healthmate.client.Objects.MyFoodItem;
 import com.healthmate.client.Objects.MyFoodSpinnerAdapter;
 import com.healthmate.client.Objects.PostObject;
@@ -37,6 +40,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -71,6 +75,7 @@ public class MyFood extends Fragment {
     private EditText calories_1,calories_2,calories_3;
     private String calorie_limit;
     private Button add_meal;
+    private  String meal_1,meal_2,meal_3;
 
 
     @Nullable
@@ -88,24 +93,24 @@ public class MyFood extends Fragment {
 
         // Initialize the adapter sending the current context
         // Send the simple_spinner_item layout
-        // And finally send the Users array (Your data)
+        // And finally send the foodlist array (Your data)
         Load_Views();
 
-        //////Testinnnnnngggggg
-        /*MyFoodItem sampleFoodItem = new MyFoodItem("Rice", "600");
-        myFoodItemList.add(sampleFoodItem);
-        MyFoodItem sampleFoodItem_2 = new MyFoodItem("Bread", "245");
-        myFoodItemList.add(sampleFoodItem_2);
 
-        adapter = new MyFoodSpinnerAdapter(getActivity(),
-                android.R.layout.simple_spinner_item,
-                myFoodItemList);
+        Field popup = null;
+        try {
+            popup = Spinner.class.getDeclaredField("mPopup");
 
-        mySpinner_1.setAdapter(adapter); // Set the custom adapter to the spinner
-        mySpinner_2.setAdapter(adapter);
-        mySpinner_3.setAdapter(adapter);*/
-
-        /////????
+            popup.setAccessible(true);
+            android.widget.ListPopupWindow popupWindow_1 = (android.widget.ListPopupWindow) popup.get(mySpinner_1);
+            android.widget.ListPopupWindow popupWindow_2 = (android.widget.ListPopupWindow) popup.get(mySpinner_2);
+            android.widget.ListPopupWindow popupWindow_3 = (android.widget.ListPopupWindow) popup.get(mySpinner_3);
+            popupWindow_1.setHeight(500);
+            popupWindow_2.setHeight(500);
+            popupWindow_3.setHeight(500);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
         SharedPreferences prefs = this.getActivity().getSharedPreferences(MY_PREFS_NAME,MODE_PRIVATE);
 
@@ -122,19 +127,19 @@ public class MyFood extends Fragment {
         }
 
         new LoadSpinner().execute(token,indicator);
-
+        add_meal.setTag("BLimit");
         Calculate_Calories();
 
-        // You can create an anonymous listener to handle the event when is selected an spinner item
         mySpinner_1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view,
                                        int position, long id) {
-                // Here you get the current item (a User object) that is selected by its position
+
                 MyFoodItem myFoodItem = adapter.getItem(position);
-                // Here you can do the action you want to...
+
                 calories_1.setText(myFoodItem.getCalories());
+                meal_1 = myFoodItem.getMeal_name();
                 Log.e("Spinner1", "onItemSelected: "+ myFoodItem.getCalories() );
                 Log.e("Spinner1", "onItemSelected: "+ myFoodItem.getMeal_name() );
                 Calculate_Calories();
@@ -148,9 +153,9 @@ public class MyFood extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view,
                                        int position, long id) {
-                // Here you get the current item (a User object) that is selected by its position
+
                 MyFoodItem myFoodItem = adapter.getItem(position);
-                // Here you can do the action you want to...
+                meal_2 = myFoodItem.getMeal_name();
                 calories_2.setText(myFoodItem.getCalories());
                 Log.e("Spinner2", "onItemSelected: "+ myFoodItem.getCalories() );
                 Log.e("Spinner2", "onItemSelected: "+ myFoodItem.getMeal_name() );
@@ -165,9 +170,9 @@ public class MyFood extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view,
                                        int position, long id) {
-                // Here you get the current item (a User object) that is selected by its position
+
                 MyFoodItem myFoodItem = adapter.getItem(position);
-                // Here you can do the action you want to...
+                meal_3 = myFoodItem.getMeal_name();
                 calories_3.setText(myFoodItem.getCalories());
                 Log.e("Spinner3", "onItemSelected: "+ myFoodItem.getCalories() );
                 Log.e("Spinner3", "onItemSelected: "+ myFoodItem.getMeal_name() );
@@ -252,8 +257,31 @@ public class MyFood extends Fragment {
         add_meal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String meal1,meal2,meal3,total_meal;
+                total_meal = "";
+
+                if(!meal_1.equals("")){
+                    total_meal = total_meal + meal_1 + " with ";
+                }
+                if(!meal_2.equals("")){
+                    total_meal = total_meal + meal_2 + " with ";
+                }
+                if(!meal_3.equals("")){
+                    total_meal = total_meal + meal_3;
+                }
+
                 if(add_meal.getTag().equals("ALimit")){
-                    Toast.makeText(getContext(),"Above Limit", Toast.LENGTH_SHORT);
+                    Toast.makeText(getContext(),"Above Limit", Toast.LENGTH_SHORT).show();
+                }
+                if(!total_meal.equals("")){
+                    SharedPreferences.Editor editor = getActivity().getSharedPreferences(MY_PREFS_NAME,MODE_PRIVATE).edit();
+                    Toast.makeText(getContext(),"Success", Toast.LENGTH_SHORT).show();
+                    editor.remove(indicator);
+                    editor.putString(indicator, total_meal);
+                    editor.remove(indicator+"_cal");
+                    editor.putString(indicator+"_cal",total_calories_tv.getText().toString());
+                    editor.apply();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
                 }
             }
         });
@@ -294,12 +322,20 @@ public class MyFood extends Fragment {
 
         Integer total_calories = meal_1 + meal_2 + meal_3;
         total_calories_tv.setText(Integer.toString(total_calories));
-        if((Float.parseFloat(calorie_limit_TV.getText().toString())-(float)total_calories)<0){
-            total_calories_tv.setTextColor(Color.RED);
+        float value = (Float.parseFloat(calorie_limit_TV.getText().toString())-(float)total_calories);
+        Log.e("value", Float.toString(value) );
+        Log.e("Tag1", (String) add_meal.getTag());
+        if(value < 0){
+            total_calories_tv.setTextColor(getActivity().getResources().getColor(R.color.red));
             add_meal.setTag("ALimit");
+            add_meal.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.btn_ash));
+            Log.e("Tag2","It was called");
+        }else{
+            total_calories_tv.setTextColor(getActivity().getResources().getColor(R.color.colorGreen));
+            add_meal.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.rec_gradient));
+            add_meal.setTag("BLimit");
         }
-        total_calories_tv.setTextColor(Color.GREEN);
-        add_meal.setTag("BLimit");
+
     }
 
     @SuppressLint("StaticFieldLeak")

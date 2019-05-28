@@ -11,28 +11,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.healthmate.client.Community.Comments;
+import com.healthmate.client.Community.Community;
 import com.healthmate.client.Community.OtherProfile;
-import com.healthmate.client.Community.Post;
-import com.healthmate.client.Community.Profile;
 import com.healthmate.client.R;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -179,7 +173,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     @SuppressLint("StaticFieldLeak")
-    class LikeTask extends AsyncTask<MyTaskParams, String, JSONObject> {
+    class LikeTask extends AsyncTask<MyTaskParams, String, Integer> {
         @Override
         protected void onPreExecute() {
 
@@ -187,7 +181,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
 
         @Override
-        protected JSONObject doInBackground(MyTaskParams... params) {
+        protected Integer doInBackground(MyTaskParams... params) {
             String postid = params[0].postid;
             String auth_token = params[0].auth_token;
             ImageView imageView = params[0].img;
@@ -223,15 +217,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 br.close();
                 con.disconnect();
 
-                JSONObject s = new JSONObject(result);
+                return resp;
 
 
             } catch (MalformedURLException e) {
                 Log.e("IOexcep", "Malformed URL");
             } catch (IOException e) {
                 Log.e("IOexcep", "Not Connected");
-            } catch (JSONException e) {
-                Log.e("JSONexcep", "JSON Error");
             }
 
 
@@ -239,9 +231,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
 
         @Override
-        protected void onPostExecute(JSONObject s) {
-
-
+        protected void onPostExecute(Integer s) {
         }
     }
 }

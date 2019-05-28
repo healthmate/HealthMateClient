@@ -369,7 +369,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#8b8b8b"
+        android:background="@color/my_ash"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"/>
 

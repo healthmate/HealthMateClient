@@ -171,14 +171,15 @@
                     android:text="gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <EditText
-                    android:drawablePadding="20dp"
+                <Spinner
                     android:id="@+id/gender"
                     android:hint="gender"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:bufferType="spannable"
-                    android:inputType="textPersonName"/>
+                    android:inputType="textPersonName"
+                    android:layout_gravity="bottom"
+                    android:textAlignment="center"/>
             </LinearLayout>
         </LinearLayout>
         <Button

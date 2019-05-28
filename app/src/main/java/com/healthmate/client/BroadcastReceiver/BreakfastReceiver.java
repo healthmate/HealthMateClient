@@ -10,11 +10,12 @@ import android.content.Intent;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import com.healthmate.client.Auth.LogIn;
 import com.healthmate.client.MainActivity;
 import com.healthmate.client.R;
 import com.healthmate.client.ServiceClass.StepService;
 
-public class NotificationReceiver extends BroadcastReceiver{
+public class BreakfastReceiver extends BroadcastReceiver{
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -23,8 +24,8 @@ public class NotificationReceiver extends BroadcastReceiver{
         //context.startService(new_intent);
 
         Notification.Builder builder = new Notification.Builder(context);
-        builder.setContentTitle("My Title").setContentText("This is the body")
-                .setSmallIcon(R.drawable.ic_launcher_background);
+        builder.setContentTitle("Breakfast").setContentText("Breakfast time 😀")
+                .setSmallIcon(R.drawable.hm_notification);
         Intent notifyIntent = new Intent(context, MainActivity.class);
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 2,
@@ -36,12 +37,15 @@ public class NotificationReceiver extends BroadcastReceiver{
         Log.e("final", "onCreate: final" );
         String channelId = "my_channel_id";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId, "Testing",NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel(channelId, "Breakfast",NotificationManager.IMPORTANCE_DEFAULT);
             assert nm != null;
             nm.createNotificationChannel(channel);
             builder.setChannelId(channelId);
         }
         assert nm != null;
         nm.notify(2,notificationCompat);
+
+        LogIn login = new LogIn();
+        login.set_Breakfast_Alarm(context);
     }
 }

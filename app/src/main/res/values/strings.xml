@@ -17,9 +17,22 @@
     <string name="lifestyle">Lifestyle</string>
     <string name="activity">Activities</string>
     <string name="community">Community</string>
-    
-    <string-array name="names">
-        <item>Yes</item>
-        <item>No</item>
+
+    <string-array name="is_diabetic">
+        <item>True</item>
+        <item>False</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>M</item>
+        <item>F</item>
+    </string-array>
+
+    <string-array name="activitylevel">
+        <item>Low</item>
+        <item>Lightly active</item>
+        <item>Moderately active</item>
+        <item>Very active</item>
+        <item>Insane</item>
     </string-array>
 </resources>

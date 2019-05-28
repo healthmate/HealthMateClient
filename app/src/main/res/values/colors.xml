@@ -11,5 +11,7 @@
     <color name="black">#403d3d</color>
     <color name="auth_color">#073319</color>
     <color name="red">#E51212</color>
+    <color name="my_ash">#8b8b8b</color>
+    <color name="blue">#065cfa</color>
 
 </resources>

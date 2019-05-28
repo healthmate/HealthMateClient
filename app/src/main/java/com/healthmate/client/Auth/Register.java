@@ -12,13 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewParent;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -28,7 +28,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
-import com.healthmate.client.Community.Post;
 import com.healthmate.client.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -78,12 +77,17 @@ public class Register extends AppCompatActivity {
         final EditText Ed_username = findViewById(R.id.username);
         final EditText Ed_password = findViewById(R.id.password);
         final EditText Ed_age = findViewById(R.id.age);
-        final EditText Ed_gender = findViewById(R.id.gender);
+        final Spinner spinner = findViewById(R.id.gender);
         profile_pic = findViewById(R.id.profile_image);
         final Button btn_register = findViewById(R.id.register);
         progressDialog = new ProgressDialog(this);
 
         storageReference = FirebaseStorage.getInstance().getReference("users");
+
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(Register.this,
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.gender));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(myAdapter);
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +98,7 @@ public class Register extends AppCompatActivity {
                 username = Ed_username.getText().toString();
                 password = Ed_password.getText().toString();
                 age = Ed_age.getText().toString();
-                gender = Ed_gender.getText().toString();
+                gender = spinner.getSelectedItem().toString();
                 uploadImage();
 
             }

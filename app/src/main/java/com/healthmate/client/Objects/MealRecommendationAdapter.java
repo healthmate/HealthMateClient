@@ -2,8 +2,10 @@ package com.healthmate.client.Objects;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +22,20 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.healthmate.client.Auth.LogIn.MY_PREFS_NAME;
+
 public class MealRecommendationAdapter extends RecyclerView.Adapter<MealRecommendationAdapter.ViewHolder>{
     public Context mContext;
     public List<MealRecommendationItem> mMeal;
     private EditText selected_meal;
+    private String indicator;
 
-    public MealRecommendationAdapter(Context mContext, List<MealRecommendationItem> mMeal, EditText selected_meal) {
+    public MealRecommendationAdapter(Context mContext, List<MealRecommendationItem> mMeal, EditText selected_meal, String indicator) {
         this.mContext = mContext;
         this.mMeal = mMeal;
         this.selected_meal = selected_meal;
+        this.indicator = indicator;
     }
 
     @NonNull
@@ -50,7 +57,11 @@ public class MealRecommendationAdapter extends RecyclerView.Adapter<MealRecommen
             @Override
             public void onClick(View view) {
                 selected_meal.setText(meal.getFood_name());
-
+                SharedPreferences.Editor editor = mContext.getSharedPreferences(MY_PREFS_NAME,MODE_PRIVATE).edit();
+                editor.remove(indicator + "_cal");
+                editor.putString(indicator + "_cal", meal.getCalorie());
+                Log.e("cal value", meal.getCalorie());
+                editor.apply();
             }
         });
     }
